@@ -8,6 +8,7 @@
     "dev": "ts-node index.ts",
     "generate": "prisma generate",
     "diagram": "ts-node generate_diagram.ts",
+    "verificar:indices": "ts-node verificar_indices.ts",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "studio": "prisma studio",
