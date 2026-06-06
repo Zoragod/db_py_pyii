@@ -1,0 +1,14 @@
+# Normalizar saltos de línea en Windows
+* text=auto
+
+# SVG como texto
+*.svg text
+
+# SQL como texto
+*.sql text
+
+# Forzar LF en scripts
+*.ts   text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.prisma text eol=lf

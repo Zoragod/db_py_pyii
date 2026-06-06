@@ -1,0 +1,35 @@
+{
+  "name": "fleet-management-db",
+  "version": "1.0.0",
+  "description": "Sistema de Administración de Flotas Vehiculares — Prisma + PostgreSQL + TypeScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node index.ts",
+    "generate": "prisma generate",
+    "diagram": "ts-node generate_diagram.ts",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "studio": "prisma studio",
+    "seed:sectores": "ts-node cargar_sectores.ts",
+    "seed:conductores": "ts-node cargar_conductores.ts",
+    "seed:vehiculos": "ts-node cargar_vehiculos.ts",
+    "seed:mecanicos": "ts-node cargar_mecanicos.ts",
+    "seed:all": "ts-node cargar_sectores.ts && ts-node cargar_conductores.ts && ts-node cargar_vehiculos.ts && ts-node cargar_mecanicos.ts",
+    "movimiento": "ts-node registrar_movimiento.ts",
+    "costos": "ts-node consultar_costos.ts",
+    "format": "prisma format"
+  },
+  "keywords": ["prisma", "postgresql", "fleet", "typescript"],
+  "author": "DBA Senior",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "prisma": "^6.9.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

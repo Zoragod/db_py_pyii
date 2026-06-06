@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+dist/
+
+# Variables de entorno (¡nunca versionar!)
+.env
+
+# Prisma
+generated/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/settings.json
+.idea/
+*.suo
+*.user

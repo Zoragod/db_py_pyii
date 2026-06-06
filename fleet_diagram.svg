@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1312" height="1936"
+     viewBox="0 0 1312 1936"
+     font-family="'Segoe UI',Roboto,Arial,sans-serif">
+<defs>
+  <filter id="sh">
+    <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#000" flood-opacity="0.55"/>
+  </filter>
+  <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L0,6 L7,3 z" fill="#64748b"/>
+  </marker>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#0b1120"/>
+    <stop offset="100%" stop-color="#0f172a"/>
+  </linearGradient>
+</defs>
+
+<!-- Canvas background -->
+<rect width="1312" height="1936" fill="url(#bg)"/>
+
+<!-- Title -->
+<text x="656" y="36" text-anchor="middle"
+      font-size="15" font-weight="700" fill="#f1f5f9" letter-spacing="0.8">
+  SISTEMA DE ADMINISTRACIÓN DE FLOTAS VEHICULARES — Diagrama E-R
+</text>
+<text x="656" y="54" text-anchor="middle"
+      font-size="10" fill="#64748b">
+  17 tablas · 5 módulos · PostgreSQL + Prisma ORM
+</text>
+<!-- Zone: CATASTRO -->
+<text x="1292" y="82"
+      text-anchor="end" font-size="9" font-weight="700"
+      fill="#3b82f6" letter-spacing="2" opacity="0.7">CATASTRO</text>
+<line x1="20" y1="76" x2="1292" y2="76"
+      stroke="#3b82f6" stroke-width="0.5" opacity="0.25"/>
+<!-- Zone: MOVIMIENTO -->
+<text x="1292" y="341"
+      text-anchor="end" font-size="9" font-weight="700"
+      fill="#10b981" letter-spacing="2" opacity="0.7">MOVIMIENTO</text>
+<line x1="20" y1="335" x2="1292" y2="335"
+      stroke="#10b981" stroke-width="0.5" opacity="0.25"/>
+<!-- Zone: MANTENIMIENTO -->
+<text x="1292" y="646"
+      text-anchor="end" font-size="9" font-weight="700"
+      fill="#8b5cf6" letter-spacing="2" opacity="0.7">MANTENIMIENTO</text>
+<line x1="20" y1="640" x2="1292" y2="640"
+      stroke="#8b5cf6" stroke-width="0.5" opacity="0.25"/>
+<!-- Zone: EXTERNALIZACIÓN -->
+<text x="1292" y="1187"
+      text-anchor="end" font-size="9" font-weight="700"
+      fill="#d97706" letter-spacing="2" opacity="0.7">EXTERNALIZACIÓN</text>
+<line x1="20" y1="1181" x2="1292" y2="1181"
+      stroke="#d97706" stroke-width="0.5" opacity="0.25"/>
+<!-- Zone: FINANCIERO -->
+<text x="1292" y="1492"
+      text-anchor="end" font-size="9" font-weight="700"
+      fill="#ef4444" letter-spacing="2" opacity="0.7">FINANCIERO</text>
+<line x1="20" y1="1486" x2="1292" y2="1486"
+      stroke="#ef4444" stroke-width="0.5" opacity="0.25"/>
+
+<!-- ═══ FK RELATIONSHIPS ═══ -->
+<path d="M678,277.5 C494,277.5 494,139.5 310,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M310,421.5 C494,421.5 494,139.5 678,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M310,444.5 C332,444.5 332,139.5 354,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M1002,421.5 C656,421.5 656,398.5 310,398.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M1002,444.5 C980,444.5 980,398.5 958,398.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M310,726.5 C494,726.5 494,139.5 678,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M678,726.5 C494,726.5 494,703.5 310,703.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M678,749.5 C656,749.5 656,703.5 634,703.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M354,985.5 C332,985.5 332,962.5 310,962.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M634,1008.5 C656,1008.5 656,139.5 678,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M1002,726.5 C656,726.5 656,703.5 310,703.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M1002,749.5 C980,749.5 980,962.5 958,962.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M310,1267.5 C310,1267.5 310,703.5 310,703.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M310,1290.5 C656,1290.5 656,962.5 1002,962.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M354,1267.5 C332,1267.5 332,1244.5 310,1244.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M634,1572.5 C656,1572.5 656,139.5 678,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+
+<!-- ═══ TABLES ═══ -->
+
+<!-- SECTOR_SOLICITANTE -->
+<rect x="30" y="90" width="280" height="113" rx="7" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="90" width="280" height="38" rx="7" fill="#2563eb"/><rect x="30" y="120" width="280" height="8" fill="#2563eb"/><text x="170" y="114" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">SECTOR_SOLICITANTE</text>
+<rect x="31" y="128" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="143.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="57" y="143.5" font-size="9.5" fill="#fbbf24">id_sector</text>
+<text x="304" y="143.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="32" y1="151" x2="308" y2="151" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="151" width="278" height="23" fill="transparent"/>
+<text x="57" y="166.5" font-size="9.5" fill="#cbd5e1">nombre_sector</text>
+<text x="304" y="166.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(100)</text>
+<line x1="32" y1="174" x2="308" y2="174" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="174" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="189.5" font-size="9.5" fill="#cbd5e1">localidad</text>
+<text x="304" y="189.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(100)</text>
+<rect x="30" y="197" width="280" height="6" rx="0" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5"/>
+
+<!-- CONDUCTOR -->
+<rect x="354" y="90" width="280" height="113" rx="7" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="354" y="90" width="280" height="38" rx="7" fill="#2563eb"/><rect x="354" y="120" width="280" height="8" fill="#2563eb"/><text x="494" y="114" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">CONDUCTOR</text>
+<rect x="355" y="128" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="361" y="143.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="381" y="143.5" font-size="9.5" fill="#fbbf24">matricula_conductor</text>
+<text x="628" y="143.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(20)</text>
+<line x1="356" y1="151" x2="632" y2="151" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="151" width="278" height="23" fill="transparent"/>
+<text x="381" y="166.5" font-size="9.5" fill="#cbd5e1">nombre_conductor</text>
+<text x="628" y="166.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(150)</text>
+<line x1="356" y1="174" x2="632" y2="174" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="174" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="381" y="189.5" font-size="9.5" fill="#cbd5e1">documento_identidad</text>
+<text x="628" y="189.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(20)</text>
+<rect x="354" y="197" width="280" height="6" rx="0" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5"/>
+
+<!-- VEHICULO -->
+<rect x="678" y="90" width="280" height="205" rx="7" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="678" y="90" width="280" height="38" rx="7" fill="#2563eb"/><rect x="678" y="120" width="280" height="8" fill="#2563eb"/><text x="818" y="114" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">VEHICULO</text>
+<rect x="679" y="128" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="685" y="143.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="705" y="143.5" font-size="9.5" fill="#fbbf24">codigo_vehiculo</text>
+<text x="952" y="143.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(6)</text>
+<line x1="680" y1="151" x2="956" y2="151" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="151" width="278" height="23" fill="transparent"/>
+<text x="705" y="166.5" font-size="9.5" fill="#cbd5e1">placa_rodaje</text>
+<text x="952" y="166.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(10)</text>
+<line x1="680" y1="174" x2="956" y2="174" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="174" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="705" y="189.5" font-size="9.5" fill="#cbd5e1">marca</text>
+<text x="952" y="189.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(50)</text>
+<line x1="680" y1="197" x2="956" y2="197" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="197" width="278" height="23" fill="transparent"/>
+<text x="705" y="212.5" font-size="9.5" fill="#cbd5e1">modelo</text>
+<text x="952" y="212.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(50)</text>
+<line x1="680" y1="220" x2="956" y2="220" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="220" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="705" y="235.5" font-size="9.5" fill="#cbd5e1">ano_fabricacion</text>
+<text x="952" y="235.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">SMALLINT</text>
+<line x1="680" y1="243" x2="956" y2="243" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="243" width="278" height="23" fill="transparent"/>
+<text x="705" y="258.5" font-size="9.5" fill="#cbd5e1">capacidad_carga_kg</text>
+<text x="952" y="258.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(8,2)</text>
+<line x1="680" y1="266" x2="956" y2="266" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="266" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="685" y="281.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="705" y="281.5" font-size="9.5" fill="#7dd3fc">id_sector_asignado</text>
+<text x="952" y="281.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<rect x="678" y="289" width="280" height="6" rx="0" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5"/>
+
+<!-- MOVIMIENTO_DIARIO -->
+<rect x="30" y="349" width="280" height="251" rx="7" fill="#0a2318" stroke="#10b981" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="349" width="280" height="38" rx="7" fill="#059669"/><rect x="30" y="379" width="280" height="8" fill="#059669"/><text x="170" y="373" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">MOVIMIENTO_DIARIO</text>
+<rect x="31" y="387" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="402.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="57" y="402.5" font-size="9.5" fill="#fbbf24">id_movimiento</text>
+<text x="304" y="402.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="32" y1="410" x2="308" y2="410" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="410" width="278" height="23" fill="transparent"/>
+<text x="37" y="425.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="57" y="425.5" font-size="9.5" fill="#7dd3fc">codigo_vehiculo</text>
+<text x="304" y="425.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(6)</text>
+<line x1="32" y1="433" x2="308" y2="433" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="433" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="448.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="57" y="448.5" font-size="9.5" fill="#7dd3fc">matricula_conductor</text>
+<text x="304" y="448.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(20)</text>
+<line x1="32" y1="456" x2="308" y2="456" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="456" width="278" height="23" fill="transparent"/>
+<text x="57" y="471.5" font-size="9.5" fill="#cbd5e1">fecha_movimiento</text>
+<text x="304" y="471.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="32" y1="479" x2="308" y2="479" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="479" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="494.5" font-size="9.5" fill="#cbd5e1">hora_salida</text>
+<text x="304" y="494.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">TIME</text>
+<line x1="32" y1="502" x2="308" y2="502" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="502" width="278" height="23" fill="transparent"/>
+<text x="57" y="517.5" font-size="9.5" fill="#cbd5e1">hora_llegada</text>
+<text x="304" y="517.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">TIME</text>
+<line x1="32" y1="525" x2="308" y2="525" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="525" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="540.5" font-size="9.5" fill="#cbd5e1">km_salida</text>
+<text x="304" y="540.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="32" y1="548" x2="308" y2="548" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="548" width="278" height="23" fill="transparent"/>
+<text x="57" y="563.5" font-size="9.5" fill="#cbd5e1">km_llegada</text>
+<text x="304" y="563.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="32" y1="571" x2="308" y2="571" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="571" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="586.5" font-size="9.5" fill="#cbd5e1">destino</text>
+<text x="304" y="586.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(200)</text>
+<rect x="30" y="594" width="280" height="6" rx="0" fill="#0a2318" stroke="#10b981" stroke-width="1.5"/>
+
+<!-- SERVICENTRO_ACREDITADO -->
+<rect x="678" y="349" width="280" height="90" rx="7" fill="#0a2318" stroke="#10b981" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="678" y="349" width="280" height="38" rx="7" fill="#059669"/><rect x="678" y="379" width="280" height="8" fill="#059669"/><text x="818" y="373" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">SERVICENTRO_ACREDITADO</text>
+<rect x="679" y="387" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="685" y="402.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="705" y="402.5" font-size="9.5" fill="#fbbf24">id_servicentro</text>
+<text x="952" y="402.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="680" y1="410" x2="956" y2="410" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="410" width="278" height="23" fill="transparent"/>
+<text x="705" y="425.5" font-size="9.5" fill="#cbd5e1">nombre_servicentro</text>
+<text x="952" y="425.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(150)</text>
+<rect x="678" y="433" width="280" height="6" rx="0" fill="#0a2318" stroke="#10b981" stroke-width="1.5"/>
+
+<!-- ORDEN_ABASTECIMIENTO -->
+<rect x="1002" y="349" width="280" height="182" rx="7" fill="#0a2318" stroke="#10b981" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="1002" y="349" width="280" height="38" rx="7" fill="#059669"/><rect x="1002" y="379" width="280" height="8" fill="#059669"/><text x="1142" y="373" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">ORDEN_ABASTECIMIENTO</text>
+<rect x="1003" y="387" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1009" y="402.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="1029" y="402.5" font-size="9.5" fill="#fbbf24">numero_orden</text>
+<text x="1276" y="402.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="410" x2="1280" y2="410" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="410" width="278" height="23" fill="transparent"/>
+<text x="1009" y="425.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="1029" y="425.5" font-size="9.5" fill="#7dd3fc">id_movimiento</text>
+<text x="1276" y="425.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="433" x2="1280" y2="433" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="433" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1009" y="448.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="1029" y="448.5" font-size="9.5" fill="#7dd3fc">id_servicentro</text>
+<text x="1276" y="448.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="456" x2="1280" y2="456" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="456" width="278" height="23" fill="transparent"/>
+<text x="1029" y="471.5" font-size="9.5" fill="#cbd5e1">tipo_combustible</text>
+<text x="1276" y="471.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(50)</text>
+<line x1="1004" y1="479" x2="1280" y2="479" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="479" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1029" y="494.5" font-size="9.5" fill="#cbd5e1">galones_abastecidos</text>
+<text x="1276" y="494.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(8,3)</text>
+<line x1="1004" y1="502" x2="1280" y2="502" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="502" width="278" height="23" fill="transparent"/>
+<text x="1029" y="517.5" font-size="9.5" fill="#cbd5e1">kilometraje_actual</text>
+<text x="1276" y="517.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<rect x="1002" y="525" width="280" height="6" rx="0" fill="#0a2318" stroke="#10b981" stroke-width="1.5"/>
+
+<!-- ORDEN_SERVICIO_TALLER -->
+<rect x="30" y="654" width="280" height="182" rx="7" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="654" width="280" height="38" rx="7" fill="#7c3aed"/><rect x="30" y="684" width="280" height="8" fill="#7c3aed"/><text x="170" y="678" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">ORDEN_SERVICIO_TALLER</text>
+<rect x="31" y="692" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="707.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="57" y="707.5" font-size="9.5" fill="#fbbf24">numero_os</text>
+<text x="304" y="707.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="32" y1="715" x2="308" y2="715" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="715" width="278" height="23" fill="transparent"/>
+<text x="37" y="730.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="57" y="730.5" font-size="9.5" fill="#7dd3fc">codigo_vehiculo</text>
+<text x="304" y="730.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(6)</text>
+<line x1="32" y1="738" x2="308" y2="738" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="738" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="753.5" font-size="9.5" fill="#cbd5e1">fecha_emision</text>
+<text x="304" y="753.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="32" y1="761" x2="308" y2="761" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="761" width="278" height="23" fill="transparent"/>
+<text x="57" y="776.5" font-size="9.5" fill="#cbd5e1">tipo_mantenimiento</text>
+<text x="304" y="776.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(100)</text>
+<line x1="32" y1="784" x2="308" y2="784" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="784" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="799.5" font-size="9.5" fill="#cbd5e1">km_entrada</text>
+<text x="304" y="799.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="32" y1="807" x2="308" y2="807" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="807" width="278" height="23" fill="transparent"/>
+<text x="57" y="822.5" font-size="9.5" fill="#cbd5e1">km_salida</text>
+<text x="304" y="822.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<rect x="30" y="830" width="280" height="6" rx="0" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5"/>
+
+<!-- MECANICO -->
+<rect x="354" y="654" width="280" height="90" rx="7" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="354" y="654" width="280" height="38" rx="7" fill="#7c3aed"/><rect x="354" y="684" width="280" height="8" fill="#7c3aed"/><text x="494" y="678" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">MECANICO</text>
+<rect x="355" y="692" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="361" y="707.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="381" y="707.5" font-size="9.5" fill="#fbbf24">matricula_mecanico</text>
+<text x="628" y="707.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(20)</text>
+<line x1="356" y1="715" x2="632" y2="715" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="715" width="278" height="23" fill="transparent"/>
+<text x="381" y="730.5" font-size="9.5" fill="#cbd5e1">nombre_mecanico</text>
+<text x="628" y="730.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(150)</text>
+<rect x="354" y="738" width="280" height="6" rx="0" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5"/>
+
+<!-- TARJETA_MANO_OBRA -->
+<rect x="678" y="654" width="280" height="205" rx="7" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="678" y="654" width="280" height="38" rx="7" fill="#7c3aed"/><rect x="678" y="684" width="280" height="8" fill="#7c3aed"/><text x="818" y="678" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">TARJETA_MANO_OBRA</text>
+<rect x="679" y="692" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="685" y="707.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="705" y="707.5" font-size="9.5" fill="#fbbf24">id_tarjeta</text>
+<text x="952" y="707.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="680" y1="715" x2="956" y2="715" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="715" width="278" height="23" fill="transparent"/>
+<text x="685" y="730.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="705" y="730.5" font-size="9.5" fill="#7dd3fc">numero_os</text>
+<text x="952" y="730.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="680" y1="738" x2="956" y2="738" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="738" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="685" y="753.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="705" y="753.5" font-size="9.5" fill="#7dd3fc">matricula_mecanico</text>
+<text x="952" y="753.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(20)</text>
+<line x1="680" y1="761" x2="956" y2="761" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="761" width="278" height="23" fill="transparent"/>
+<text x="705" y="776.5" font-size="9.5" fill="#cbd5e1">fecha_trabajo</text>
+<text x="952" y="776.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="680" y1="784" x2="956" y2="784" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="784" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="705" y="799.5" font-size="9.5" fill="#cbd5e1">codigo_servicio_ejecutado</text>
+<text x="952" y="799.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(50)</text>
+<line x1="680" y1="807" x2="956" y2="807" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="807" width="278" height="23" fill="transparent"/>
+<text x="705" y="822.5" font-size="9.5" fill="#cbd5e1">hora_inicio</text>
+<text x="952" y="822.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">TIME</text>
+<line x1="680" y1="830" x2="956" y2="830" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="830" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="705" y="845.5" font-size="9.5" fill="#cbd5e1">hora_final</text>
+<text x="952" y="845.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">TIME</text>
+<rect x="678" y="853" width="280" height="6" rx="0" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5"/>
+
+<!-- DETALLE_SOLICITUD_MATERIAL -->
+<rect x="1002" y="654" width="280" height="159" rx="7" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="1002" y="654" width="280" height="38" rx="7" fill="#7c3aed"/><rect x="1002" y="684" width="280" height="8" fill="#7c3aed"/><text x="1142" y="678" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">DETALLE_SOLICITUD_MATERIAL</text>
+<rect x="1003" y="692" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1009" y="707.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="1029" y="707.5" font-size="9.5" fill="#fbbf24">id_detalle</text>
+<text x="1276" y="707.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="715" x2="1280" y2="715" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="715" width="278" height="23" fill="transparent"/>
+<text x="1009" y="730.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="1029" y="730.5" font-size="9.5" fill="#7dd3fc">numero_os</text>
+<text x="1276" y="730.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="738" x2="1280" y2="738" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="738" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1009" y="753.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="1029" y="753.5" font-size="9.5" fill="#7dd3fc">codigo_repuesto</text>
+<text x="1276" y="753.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(30)</text>
+<line x1="1004" y1="761" x2="1280" y2="761" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="761" width="278" height="23" fill="transparent"/>
+<text x="1029" y="776.5" font-size="9.5" fill="#cbd5e1">cantidad</text>
+<text x="1276" y="776.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(8,3)</text>
+<line x1="1004" y1="784" x2="1280" y2="784" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="784" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1029" y="799.5" font-size="9.5" fill="#cbd5e1">costo_total_repuesto</text>
+<text x="1276" y="799.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<rect x="1002" y="807" width="280" height="6" rx="0" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5"/>
+
+<!-- LLANTA_O_CONJUNTO -->
+<rect x="30" y="913" width="280" height="159" rx="7" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="913" width="280" height="38" rx="7" fill="#7c3aed"/><rect x="30" y="943" width="280" height="8" fill="#7c3aed"/><text x="170" y="937" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">LLANTA_O_CONJUNTO</text>
+<rect x="31" y="951" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="966.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="57" y="966.5" font-size="9.5" fill="#fbbf24">numero_fabrica</text>
+<text x="304" y="966.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(50)</text>
+<line x1="32" y1="974" x2="308" y2="974" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="974" width="278" height="23" fill="transparent"/>
+<text x="57" y="989.5" font-size="9.5" fill="#cbd5e1">fabricante</text>
+<text x="304" y="989.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(100)</text>
+<line x1="32" y1="997" x2="308" y2="997" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="997" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1012.5" font-size="9.5" fill="#cbd5e1">dimension</text>
+<text x="304" y="1012.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(30)</text>
+<line x1="32" y1="1020" x2="308" y2="1020" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1020" width="278" height="23" fill="transparent"/>
+<text x="57" y="1035.5" font-size="9.5" fill="#cbd5e1">modelo</text>
+<text x="304" y="1035.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(100)</text>
+<line x1="32" y1="1043" x2="308" y2="1043" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1043" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1058.5" font-size="9.5" fill="#cbd5e1">tipo_elemento</text>
+<text x="304" y="1058.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(50)</text>
+<rect x="30" y="1066" width="280" height="6" rx="0" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5"/>
+
+<!-- HISTORIAL_FICHA_CONTROL -->
+<rect x="354" y="913" width="280" height="228" rx="7" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="354" y="913" width="280" height="38" rx="7" fill="#7c3aed"/><rect x="354" y="943" width="280" height="8" fill="#7c3aed"/><text x="494" y="937" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">HISTORIAL_FICHA_CONTROL</text>
+<rect x="355" y="951" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="361" y="966.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="381" y="966.5" font-size="9.5" fill="#fbbf24">id_historial</text>
+<text x="628" y="966.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="356" y1="974" x2="632" y2="974" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="974" width="278" height="23" fill="transparent"/>
+<text x="361" y="989.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="381" y="989.5" font-size="9.5" fill="#7dd3fc">numero_fabrica</text>
+<text x="628" y="989.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(50)</text>
+<line x1="356" y1="997" x2="632" y2="997" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="997" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="361" y="1012.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="381" y="1012.5" font-size="9.5" fill="#7dd3fc">codigo_vehiculo</text>
+<text x="628" y="1012.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(6)</text>
+<line x1="356" y1="1020" x2="632" y2="1020" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1020" width="278" height="23" fill="transparent"/>
+<text x="381" y="1035.5" font-size="9.5" fill="#cbd5e1">fecha_instalacion</text>
+<text x="628" y="1035.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="356" y1="1043" x2="632" y2="1043" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1043" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="381" y="1058.5" font-size="9.5" fill="#cbd5e1">fecha_retiro</text>
+<text x="628" y="1058.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="356" y1="1066" x2="632" y2="1066" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1066" width="278" height="23" fill="transparent"/>
+<text x="381" y="1081.5" font-size="9.5" fill="#cbd5e1">km_instalacion</text>
+<text x="628" y="1081.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="356" y1="1089" x2="632" y2="1089" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1089" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="381" y="1104.5" font-size="9.5" fill="#cbd5e1">km_retiro</text>
+<text x="628" y="1104.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="356" y1="1112" x2="632" y2="1112" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1112" width="278" height="23" fill="transparent"/>
+<text x="381" y="1127.5" font-size="9.5" fill="#cbd5e1">posicion_rueda</text>
+<text x="628" y="1127.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(20)</text>
+<rect x="354" y="1135" width="280" height="6" rx="0" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5"/>
+
+<!-- REPUESTO_ALMACEN -->
+<rect x="678" y="913" width="280" height="113" rx="7" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="678" y="913" width="280" height="38" rx="7" fill="#7c3aed"/><rect x="678" y="943" width="280" height="8" fill="#7c3aed"/><text x="818" y="937" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">REPUESTO_ALMACEN</text>
+<rect x="679" y="951" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="685" y="966.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="705" y="966.5" font-size="9.5" fill="#fbbf24">codigo_repuesto</text>
+<text x="952" y="966.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(30)</text>
+<line x1="680" y1="974" x2="956" y2="974" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="974" width="278" height="23" fill="transparent"/>
+<text x="705" y="989.5" font-size="9.5" fill="#cbd5e1">descripcion</text>
+<text x="952" y="989.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(200)</text>
+<line x1="680" y1="997" x2="956" y2="997" stroke="#8b5cf6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="997" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="705" y="1012.5" font-size="9.5" fill="#cbd5e1">costo_unitario</text>
+<text x="952" y="1012.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<rect x="678" y="1020" width="280" height="6" rx="0" fill="#1a0f2e" stroke="#8b5cf6" stroke-width="1.5"/>
+
+<!-- TALLER_TERCEROS -->
+<rect x="1002" y="913" width="280" height="113" rx="7" fill="#2a1a05" stroke="#d97706" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="1002" y="913" width="280" height="38" rx="7" fill="#b45309"/><rect x="1002" y="943" width="280" height="8" fill="#b45309"/><text x="1142" y="937" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">TALLER_TERCEROS</text>
+<rect x="1003" y="951" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1009" y="966.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="1029" y="966.5" font-size="9.5" fill="#fbbf24">id_taller_tercero</text>
+<text x="1276" y="966.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="974" x2="1280" y2="974" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="974" width="278" height="23" fill="transparent"/>
+<text x="1029" y="989.5" font-size="9.5" fill="#cbd5e1">nombre_taller</text>
+<text x="1276" y="989.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(150)</text>
+<line x1="1004" y1="997" x2="1280" y2="997" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="997" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1029" y="1012.5" font-size="9.5" fill="#cbd5e1">datos_comunicacion</text>
+<text x="1276" y="1012.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(300)</text>
+<rect x="1002" y="1020" width="280" height="6" rx="0" fill="#2a1a05" stroke="#d97706" stroke-width="1.5"/>
+
+<!-- AUTORIZACION_SERVICIO_EXTERNO -->
+<rect x="30" y="1195" width="280" height="251" rx="7" fill="#2a1a05" stroke="#d97706" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="1195" width="280" height="38" rx="7" fill="#b45309"/><rect x="30" y="1225" width="280" height="8" fill="#b45309"/><text x="170" y="1219" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">AUTORIZACION_SERVICIO_EXTERNO</text>
+<rect x="31" y="1233" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="1248.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="57" y="1248.5" font-size="9.5" fill="#fbbf24">numero_autorizacion</text>
+<text x="304" y="1248.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="32" y1="1256" x2="308" y2="1256" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1256" width="278" height="23" fill="transparent"/>
+<text x="37" y="1271.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="57" y="1271.5" font-size="9.5" fill="#7dd3fc">numero_os</text>
+<text x="304" y="1271.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="32" y1="1279" x2="308" y2="1279" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1279" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="1294.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="57" y="1294.5" font-size="9.5" fill="#7dd3fc">id_taller_tercero</text>
+<text x="304" y="1294.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="32" y1="1302" x2="308" y2="1302" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1302" width="278" height="23" fill="transparent"/>
+<text x="57" y="1317.5" font-size="9.5" fill="#cbd5e1">fecha_emision</text>
+<text x="304" y="1317.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="32" y1="1325" x2="308" y2="1325" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1325" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1340.5" font-size="9.5" fill="#cbd5e1">fecha_entrada_taller</text>
+<text x="304" y="1340.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="32" y1="1348" x2="308" y2="1348" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1348" width="278" height="23" fill="transparent"/>
+<text x="57" y="1363.5" font-size="9.5" fill="#cbd5e1">km_entrada</text>
+<text x="304" y="1363.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="32" y1="1371" x2="308" y2="1371" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1371" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1386.5" font-size="9.5" fill="#cbd5e1">fecha_salida_taller</text>
+<text x="304" y="1386.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="32" y1="1394" x2="308" y2="1394" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1394" width="278" height="23" fill="transparent"/>
+<text x="57" y="1409.5" font-size="9.5" fill="#cbd5e1">km_salida</text>
+<text x="304" y="1409.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="32" y1="1417" x2="308" y2="1417" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1417" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1432.5" font-size="9.5" fill="#cbd5e1">fecha_aprobacion</text>
+<text x="304" y="1432.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<rect x="30" y="1440" width="280" height="6" rx="0" fill="#2a1a05" stroke="#d97706" stroke-width="1.5"/>
+
+<!-- DETALLE_SERVICIO_EXTERNO -->
+<rect x="354" y="1195" width="280" height="136" rx="7" fill="#2a1a05" stroke="#d97706" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="354" y="1195" width="280" height="38" rx="7" fill="#b45309"/><rect x="354" y="1225" width="280" height="8" fill="#b45309"/><text x="494" y="1219" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">DETALLE_SERVICIO_EXTERNO</text>
+<rect x="355" y="1233" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="361" y="1248.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="381" y="1248.5" font-size="9.5" fill="#fbbf24">id_detalle_externo</text>
+<text x="628" y="1248.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="356" y1="1256" x2="632" y2="1256" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1256" width="278" height="23" fill="transparent"/>
+<text x="361" y="1271.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="381" y="1271.5" font-size="9.5" fill="#7dd3fc">numero_autorizacion</text>
+<text x="628" y="1271.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="356" y1="1279" x2="632" y2="1279" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1279" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="381" y="1294.5" font-size="9.5" fill="#cbd5e1">descripcion_servicio</text>
+<text x="628" y="1294.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(300)</text>
+<line x1="356" y1="1302" x2="632" y2="1302" stroke="#d97706" stroke-width="0.3" opacity="0.35"/>
+<rect x="355" y="1302" width="278" height="23" fill="transparent"/>
+<text x="381" y="1317.5" font-size="9.5" fill="#cbd5e1">valor_presupuestado</text>
+<text x="628" y="1317.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<rect x="354" y="1325" width="280" height="6" rx="0" fill="#2a1a05" stroke="#d97706" stroke-width="1.5"/>
+
+<!-- CONTROL_MENSUAL_COSTO -->
+<rect x="30" y="1500" width="604" height="366" rx="7" fill="#2a0a0a" stroke="#ef4444" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="1500" width="604" height="38" rx="7" fill="#b91c1c"/><rect x="30" y="1530" width="604" height="8" fill="#b91c1c"/><text x="332" y="1524" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">CONTROL_MENSUAL_COSTO</text>
+<rect x="31" y="1538" width="602" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="37" y="1553.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="57" y="1553.5" font-size="9.5" fill="#fbbf24">id_control_mensual</text>
+<text x="628" y="1553.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="32" y1="1561" x2="632" y2="1561" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1561" width="602" height="23" fill="transparent"/>
+<text x="37" y="1576.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="57" y="1576.5" font-size="9.5" fill="#7dd3fc">codigo_vehiculo</text>
+<text x="628" y="1576.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(6)</text>
+<line x1="32" y1="1584" x2="632" y2="1584" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1584" width="602" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1599.5" font-size="9.5" fill="#cbd5e1">mes_referencia</text>
+<text x="628" y="1599.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">SMALLINT</text>
+<line x1="32" y1="1607" x2="632" y2="1607" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1607" width="602" height="23" fill="transparent"/>
+<text x="57" y="1622.5" font-size="9.5" fill="#cbd5e1">anio_referencia</text>
+<text x="628" y="1622.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">SMALLINT</text>
+<line x1="32" y1="1630" x2="632" y2="1630" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1630" width="602" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1645.5" font-size="9.5" fill="#cbd5e1">total_kilometros_recorridos</text>
+<text x="628" y="1645.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,2)</text>
+<line x1="32" y1="1653" x2="632" y2="1653" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1653" width="602" height="23" fill="transparent"/>
+<text x="57" y="1668.5" font-size="9.5" fill="#cbd5e1">total_horas_uso</text>
+<text x="628" y="1668.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(8,2)</text>
+<line x1="32" y1="1676" x2="632" y2="1676" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1676" width="602" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1691.5" font-size="9.5" fill="#cbd5e1">costo_total_combustible</text>
+<text x="628" y="1691.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="32" y1="1699" x2="632" y2="1699" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1699" width="602" height="23" fill="transparent"/>
+<text x="57" y="1714.5" font-size="9.5" fill="#cbd5e1">costo_mano_obra_propia</text>
+<text x="628" y="1714.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="32" y1="1722" x2="632" y2="1722" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1722" width="602" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1737.5" font-size="9.5" fill="#cbd5e1">costo_repuestos_propios</text>
+<text x="628" y="1737.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="32" y1="1745" x2="632" y2="1745" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1745" width="602" height="23" fill="transparent"/>
+<text x="57" y="1760.5" font-size="9.5" fill="#cbd5e1">costo_talleres_terceros</text>
+<text x="628" y="1760.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="32" y1="1768" x2="632" y2="1768" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1768" width="602" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1783.5" font-size="9.5" fill="#cbd5e1">costo_fijo_vehiculo</text>
+<text x="628" y="1783.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="32" y1="1791" x2="632" y2="1791" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1791" width="602" height="23" fill="transparent"/>
+<text x="57" y="1806.5" font-size="9.5" fill="#cbd5e1">costo_fijo_prorrateado</text>
+<text x="628" y="1806.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="32" y1="1814" x2="632" y2="1814" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1814" width="602" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="1829.5" font-size="9.5" fill="#cbd5e1">costo_variable</text>
+<text x="628" y="1829.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="32" y1="1837" x2="632" y2="1837" stroke="#ef4444" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="1837" width="602" height="23" fill="transparent"/>
+<text x="57" y="1852.5" font-size="9.5" fill="#cbd5e1">costo_por_kilometro</text>
+<text x="628" y="1852.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(10,4)</text>
+<rect x="30" y="1860" width="604" height="6" rx="0" fill="#2a0a0a" stroke="#ef4444" stroke-width="1.5"/>
+
+<!-- Legend -->
+<rect x="20" y="1904" width="10" height="10" rx="2" fill="#2563eb"/><text x="34" y="1914" font-size="9" fill="#94a3b8">Catastro</text>
+<rect x="99.6" y="1904" width="10" height="10" rx="2" fill="#059669"/><text x="113.6" y="1914" font-size="9" fill="#94a3b8">Movimiento</text>
+<rect x="191.6" y="1904" width="10" height="10" rx="2" fill="#7c3aed"/><text x="205.6" y="1914" font-size="9" fill="#94a3b8">Mantenimiento</text>
+<rect x="302.2" y="1904" width="10" height="10" rx="2" fill="#b45309"/><text x="316.2" y="1914" font-size="9" fill="#94a3b8">Externalización</text>
+<rect x="425.2" y="1904" width="10" height="10" rx="2" fill="#b91c1c"/><text x="439.2" y="1914" font-size="9" fill="#94a3b8">Financiero</text>
+
+</svg>

@@ -1,0 +1,306 @@
+// =============================================================================
+// schema.prisma — Sistema de Administración de Flotas Vehiculares
+// Provider: PostgreSQL
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// MÓDULO 1: CATASTRO (Núcleo)
+// Tablas maestras independientes sin dependencias externas.
+// ============================================================
+
+/// Áreas o dependencias internas que solicitan el uso de vehículos.
+model SectorSolicitante {
+  idSector     Int    @id @default(autoincrement()) @map("id_sector")
+  nombreSector String @map("nombre_sector") @db.VarChar(100)
+  localidad    String @db.VarChar(100)
+
+  vehiculos Vehiculo[]
+
+  @@map("sector_solicitante")
+}
+
+/// Personal habilitado para conducir los vehículos de la flota.
+model Conductor {
+  matriculaConductor String @id @map("matricula_conductor") @db.VarChar(20)
+  nombreConductor    String @map("nombre_conductor") @db.VarChar(150)
+  documentoIdentidad String @unique @map("documento_identidad") @db.VarChar(20)
+
+  movimientos MovimientoDiario[]
+
+  @@map("conductor")
+}
+
+/// Inventario de los vehículos que componen la flota.
+model Vehiculo {
+  codigoVehiculo   String  @id @map("codigo_vehiculo") @db.VarChar(6)
+  placaRodaje      String  @unique @map("placa_rodaje") @db.VarChar(10)
+  marca            String  @db.VarChar(50)
+  modelo           String  @db.VarChar(50)
+  anoFabricacion   Int     @map("ano_fabricacion") @db.SmallInt
+  capacidadCargaKg Decimal @map("capacidad_carga_kg") @db.Decimal(8, 2)
+  idSectorAsignado Int     @map("id_sector_asignado")
+
+  sector          SectorSolicitante       @relation(fields: [idSectorAsignado], references: [idSector])
+  movimientos     MovimientoDiario[]
+  ordenesServicio OrdenServicioTaller[]
+  historialLlantas HistorialFichaControl[]
+  controlMensual  ControlMensualCosto[]
+
+  /// Índice B-Tree para búsqueda patrimonial por placa (ya cubierto por @unique)
+  @@index([placaRodaje], name: "IDX_VEHICULO_PLACA_RODAJE")
+  @@map("vehiculo")
+}
+
+// ============================================================
+// MÓDULO 2: MOVIMIENTO (Transaccional)
+// Desplazamientos diarios y abastecimiento de combustible.
+// ============================================================
+
+/// Cada fila es un viaje o jornada de un vehículo conducido por un conductor.
+model MovimientoDiario {
+  idMovimiento       Int      @id @default(autoincrement()) @map("id_movimiento")
+  codigoVehiculo     String   @map("codigo_vehiculo") @db.VarChar(6)
+  matriculaConductor String   @map("matricula_conductor") @db.VarChar(20)
+  fechaMovimiento    DateTime @map("fecha_movimiento") @db.Date
+  horaSalida         DateTime @map("hora_salida") @db.Time()
+  horaLlegada        DateTime? @map("hora_llegada") @db.Time()
+  kmSalida           Decimal  @map("km_salida") @db.Decimal(10, 2)
+  kmLlegada          Decimal? @map("km_llegada") @db.Decimal(10, 2)
+  destino            String   @db.VarChar(200)
+
+  vehiculo  Vehiculo  @relation(fields: [codigoVehiculo], references: [codigoVehiculo])
+  conductor Conductor @relation(fields: [matriculaConductor], references: [matriculaConductor])
+  ordenes   OrdenAbastecimiento[]
+
+  /// Índice B-Tree temporal para cálculo de costos mensuales por rango de fecha
+  @@index([fechaMovimiento], name: "IDX_MOVIMIENTO_DIARIO_FECHA")
+  @@map("movimiento_diario")
+}
+
+/// Catálogo de estaciones de servicio autorizadas para el abastecimiento.
+model ServicentroAcreditado {
+  idServicentro     Int    @id @default(autoincrement()) @map("id_servicentro")
+  nombreServicentro String @map("nombre_servicentro") @db.VarChar(150)
+
+  ordenes OrdenAbastecimiento[]
+
+  @@map("servicentro_acreditado")
+}
+
+/// Registra cada carga de combustible asociada a un movimiento diario.
+model OrdenAbastecimiento {
+  numeroOrden        Int     @id @default(autoincrement()) @map("numero_orden")
+  idMovimiento       Int     @map("id_movimiento")
+  idServicentro      Int     @map("id_servicentro")
+  tipoCombustible    String  @map("tipo_combustible") @db.VarChar(50)
+  galonesAbastecidos Decimal @map("galones_abastecidos") @db.Decimal(8, 3)
+  kilometrajeActual  Decimal @map("kilometraje_actual") @db.Decimal(10, 2)
+
+  movimiento  MovimientoDiario      @relation(fields: [idMovimiento], references: [idMovimiento])
+  servicentro ServicentroAcreditado @relation(fields: [idServicentro], references: [idServicentro])
+
+  @@map("orden_abastecimiento")
+}
+
+// ============================================================
+// MÓDULO 3: MANTENIMIENTO INTERNO Y ALMACÉN
+// Órdenes de servicio, mano de obra, llantas y repuestos.
+// ============================================================
+
+/// Documento que autoriza y registra un trabajo de mantenimiento en el taller propio.
+model OrdenServicioTaller {
+  numeroOs          Int      @id @default(autoincrement()) @map("numero_os")
+  codigoVehiculo    String   @map("codigo_vehiculo") @db.VarChar(6)
+  fechaEmision      DateTime @map("fecha_emision") @db.Date
+  tipoMantenimiento String   @map("tipo_mantenimiento") @db.VarChar(100)
+  kmEntrada         Decimal  @map("km_entrada") @db.Decimal(10, 2)
+  kmSalida          Decimal? @map("km_salida") @db.Decimal(10, 2)
+
+  vehiculo       Vehiculo                      @relation(fields: [codigoVehiculo], references: [codigoVehiculo])
+  tarjetas       TarjetaManoObra[]
+  materiales     DetalleSolicitudMaterial[]
+  autorizaciones AutorizacionServicioExterno[]
+
+  /// Índice B-Tree temporal para consolidar costos de OS por período mensual
+  @@index([fechaEmision], name: "IDX_ORDEN_SERVICIO_TALLER_FECHA_EMISION")
+  @@map("orden_servicio_taller")
+}
+
+/// Registro del personal técnico del taller interno.
+model Mecanico {
+  matriculaMecanico String @id @map("matricula_mecanico") @db.VarChar(20)
+  nombreMecanico    String @map("nombre_mecanico") @db.VarChar(150)
+
+  tarjetas TarjetaManoObra[]
+
+  @@map("mecanico")
+}
+
+/// Detalla las horas trabajadas por cada mecánico en una Orden de Servicio.
+model TarjetaManoObra {
+  idTarjeta               Int      @id @default(autoincrement()) @map("id_tarjeta")
+  numeroOs                Int      @map("numero_os")
+  matriculaMecanico       String   @map("matricula_mecanico") @db.VarChar(20)
+  fechaTrabajo            DateTime @map("fecha_trabajo") @db.Date
+  codigoServicioEjecutado String   @map("codigo_servicio_ejecutado") @db.VarChar(50)
+  horaInicio              DateTime @map("hora_inicio") @db.Time()
+  horaFinal               DateTime @map("hora_final") @db.Time()
+
+  ordenServicio OrdenServicioTaller @relation(fields: [numeroOs], references: [numeroOs])
+  mecanico      Mecanico            @relation(fields: [matriculaMecanico], references: [matriculaMecanico])
+
+  /// Índice B-Tree FK para agrupar todos los registros de mano de obra por OS
+  @@index([numeroOs], name: "IDX_TARJETA_MANO_OBRA_NUMERO_OS")
+  @@map("tarjeta_mano_obra")
+}
+
+/// Inventario de llantas y conjuntos identificados por número de fábrica.
+model LlantaOConjunto {
+  numeroFabrica String @id @map("numero_fabrica") @db.VarChar(50)
+  fabricante    String @db.VarChar(100)
+  dimension     String @db.VarChar(30)
+  modelo        String @db.VarChar(100)
+  tipoElemento  String @map("tipo_elemento") @db.VarChar(50)
+
+  historial HistorialFichaControl[]
+
+  @@map("llanta_o_conjunto")
+}
+
+/// Trazabilidad de cada llanta: vehículo, posición, kilómetros de instalación y retiro.
+model HistorialFichaControl {
+  idHistorial      Int       @id @default(autoincrement()) @map("id_historial")
+  numeroFabrica    String    @map("numero_fabrica") @db.VarChar(50)
+  codigoVehiculo   String    @map("codigo_vehiculo") @db.VarChar(6)
+  fechaInstalacion DateTime  @map("fecha_instalacion") @db.Date
+  fechaRetiro      DateTime? @map("fecha_retiro") @db.Date
+  kmInstalacion    Decimal   @map("km_instalacion") @db.Decimal(10, 2)
+  kmRetiro         Decimal?  @map("km_retiro") @db.Decimal(10, 2)
+  posicionRueda    String    @map("posicion_rueda") @db.VarChar(20)
+
+  llanta   LlantaOConjunto @relation(fields: [numeroFabrica], references: [numeroFabrica])
+  vehiculo Vehiculo        @relation(fields: [codigoVehiculo], references: [codigoVehiculo])
+
+  /// Índice B-Tree para trazabilidad de componentes físicos por número de fábrica
+  @@index([numeroFabrica], name: "IDX_HISTORIAL_FICHA_CONTROL_NUMERO_FABRICA")
+  @@map("historial_ficha_control")
+}
+
+/// Catálogo de piezas y materiales disponibles en el almacén propio.
+model RepuestoAlmacen {
+  codigoRepuesto String  @id @map("codigo_repuesto") @db.VarChar(30)
+  descripcion    String  @db.VarChar(200)
+  costoUnitario  Decimal @map("costo_unitario") @db.Decimal(10, 2)
+
+  detalles DetalleSolicitudMaterial[]
+
+  @@map("repuesto_almacen")
+}
+
+/// Relación N:M entre una Orden de Servicio y los repuestos utilizados.
+model DetalleSolicitudMaterial {
+  idDetalle          Int     @id @default(autoincrement()) @map("id_detalle")
+  numeroOs           Int     @map("numero_os")
+  codigoRepuesto     String  @map("codigo_repuesto") @db.VarChar(30)
+  cantidad           Decimal @db.Decimal(8, 3)
+  costoTotalRepuesto Decimal @map("costo_total_repuesto") @db.Decimal(12, 2)
+
+  ordenServicio OrdenServicioTaller @relation(fields: [numeroOs], references: [numeroOs])
+  repuesto      RepuestoAlmacen     @relation(fields: [codigoRepuesto], references: [codigoRepuesto])
+
+  /// Índice B-Tree FK para agrupar repuestos despachados por OS (para factura)
+  @@index([numeroOs], name: "IDX_DETALLE_SOLICITUD_MATERIAL_NUMERO_OS")
+  @@map("detalle_solicitud_material")
+}
+
+// ============================================================
+// MÓDULO 4: EXTERNALIZACIÓN (Talleres Privados)
+// Servicios de mantenimiento contratados a talleres externos.
+// ============================================================
+
+/// Catálogo de proveedores de servicios de mantenimiento externos.
+model TallerTerceros {
+  idTallerTercero   Int     @id @default(autoincrement()) @map("id_taller_tercero")
+  nombreTaller      String  @map("nombre_taller") @db.VarChar(150)
+  datosComunicacion String? @map("datos_comunicacion") @db.VarChar(300)
+
+  autorizaciones AutorizacionServicioExterno[]
+
+  @@map("taller_terceros")
+}
+
+/// Documento que aprueba el envío de un vehículo a un taller externo.
+model AutorizacionServicioExterno {
+  numeroAutorizacion Int       @id @default(autoincrement()) @map("numero_autorizacion")
+  numeroOs           Int       @map("numero_os")
+  idTallerTercero    Int       @map("id_taller_tercero")
+  fechaEmision       DateTime  @map("fecha_emision") @db.Date
+  fechaEntradaTaller DateTime? @map("fecha_entrada_taller") @db.Date
+  kmEntrada          Decimal?  @map("km_entrada") @db.Decimal(10, 2)
+  fechaSalidaTaller  DateTime? @map("fecha_salida_taller") @db.Date
+  kmSalida           Decimal?  @map("km_salida") @db.Decimal(10, 2)
+  fechaAprobacion    DateTime? @map("fecha_aprobacion") @db.Date
+
+  ordenServicio OrdenServicioTaller    @relation(fields: [numeroOs], references: [numeroOs])
+  taller        TallerTerceros         @relation(fields: [idTallerTercero], references: [idTallerTercero])
+  detalles      DetalleServicioExterno[]
+
+  /// Índice B-Tree temporal para sumar costos de talleres terceros por período
+  @@index([fechaEmision], name: "IDX_AUTORIZACION_SERVICIO_EXTERNO_FECHA_EMISION")
+  /// Índice B-Tree FK para recuperar la autorización ligada a una OS sin Full Scan
+  @@index([numeroOs], name: "IDX_AUTORIZACION_SERVICIO_EXTERNO_NUMERO_OS")
+  @@map("autorizacion_servicio_externo")
+}
+
+/// Desglose de los trabajos presupuestados dentro de una Autorización de Servicio.
+model DetalleServicioExterno {
+  idDetalleExterno    Int     @id @default(autoincrement()) @map("id_detalle_externo")
+  numeroAutorizacion  Int     @map("numero_autorizacion")
+  descripcionServicio String  @map("descripcion_servicio") @db.VarChar(300)
+  valorPresupuestado  Decimal @map("valor_presupuestado") @db.Decimal(12, 2)
+
+  autorizacion AutorizacionServicioExterno @relation(fields: [numeroAutorizacion], references: [numeroAutorizacion])
+
+  @@map("detalle_servicio_externo")
+}
+
+// ============================================================
+// MÓDULO 5: FINANCIERO (Consolidador Mensual)
+// Cierre mensual de costos por vehículo.
+// ============================================================
+
+/// Agrega todos los costos asociados a cada vehículo por período mensual.
+model ControlMensualCosto {
+  idControlMensual          Int     @id @default(autoincrement()) @map("id_control_mensual")
+  codigoVehiculo            String  @map("codigo_vehiculo") @db.VarChar(6)
+  mesReferencia             Int     @map("mes_referencia") @db.SmallInt
+  anioReferencia            Int     @map("anio_referencia") @db.SmallInt
+  totalKilometrosRecorridos Decimal @default(0) @map("total_kilometros_recorridos") @db.Decimal(10, 2)
+  totalHorasUso             Decimal @default(0) @map("total_horas_uso") @db.Decimal(8, 2)
+  costoTotalCombustible     Decimal @default(0) @map("costo_total_combustible") @db.Decimal(12, 2)
+  costoManoObraPropia       Decimal @default(0) @map("costo_mano_obra_propia") @db.Decimal(12, 2)
+  costoRepuestosPropios     Decimal @default(0) @map("costo_repuestos_propios") @db.Decimal(12, 2)
+  costoTalleresTerceros     Decimal @default(0) @map("costo_talleres_terceros") @db.Decimal(12, 2)
+  costoFijoVehiculo         Decimal @default(0) @map("costo_fijo_vehiculo") @db.Decimal(12, 2)
+  costoFijoProrrateado      Decimal @default(0) @map("costo_fijo_prorrateado") @db.Decimal(12, 2)
+  costoVariable             Decimal @default(0) @map("costo_variable") @db.Decimal(12, 2)
+  costoPorKilometro         Decimal @default(0) @map("costo_por_kilometro") @db.Decimal(10, 4)
+
+  vehiculo Vehiculo @relation(fields: [codigoVehiculo], references: [codigoVehiculo])
+
+  /// Restricción de unicidad: un solo cierre mensual por vehículo y período
+  @@unique([codigoVehiculo, mesReferencia, anioReferencia])
+  /// Índice compuesto B-Tree temporal para filtrar rápido por mes y año
+  @@index([mesReferencia, anioReferencia], name: "IDX_CONTROL_MENSUAL_COSTO_PERIODO")
+  @@map("control_mensual_costo")
+}
