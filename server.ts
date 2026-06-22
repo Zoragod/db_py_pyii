@@ -6,6 +6,18 @@ import { Rol, Decimal } from './generated/prisma'
 const app = express()
 app.use(express.json())
 
+// Middleware de CORS nativo (evita dependencias adicionales)
+app.use((req: Request, res: Response, next: NextFunction): void => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200)
+    return
+  }
+  next()
+})
+
 const JWT_SECRET = process.env.JWT_SECRET || 'siafv_super_secret_key_2026'
 
 // ─── Interfaces Extendidas ────────────────────────────────────────────────────
