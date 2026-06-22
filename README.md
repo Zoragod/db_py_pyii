@@ -1,19 +1,27 @@
 # Sistema de Administración de Flotas Vehiculares
 
-Base de datos relacional completa para la gestión de flotas, construida con **Prisma ORM**, **PostgreSQL** y **TypeScript**.
+Sistema transaccional completo para la gestión de flotas, construido con **Prisma ORM**, **Express (Backend API)**, **React + Vite (Frontend)** y **PostgreSQL**.
 
 ---
 
 ## Estructura del Proyecto
 
 ```
+├── .agents/                 → Reglas de agentes de IA
+├── frontend/                → Aplicación React (Vite, Tailwind/Vanilla CSS)
+│   ├── src/                 → Componentes, páginas y contextos del frontend
+│   ├── Dockerfile           → Dockerfile para Nginx / Frontend
+│   └── package.json
 ├── generated/prisma/        → Cliente Prisma auto-generado
 ├── prisma/
 │   ├── migrations/          → Historial de migraciones
 │   ├── views/               → Vistas SQL auxiliares
 │   ├── erd.svg              → Diagrama Entidad-Relación
 │   └── schema.prisma        → Esquema de la base de datos
-├── index.ts                 → Punto de entrada y demo de conexión
+├── Dockerfile               → Dockerfile para el Backend
+├── docker-compose.yml       → Orquestación de BD, Backend y Frontend
+├── server.ts                → Servidor API REST (Express + Prisma)
+├── index.ts                 → Script CLI de diagnóstico de conexión
 ├── prisma.config.ts         → Singleton del cliente Prisma
 ├── cargar_sectores.ts       → Seed: Sectores Solicitantes
 ├── cargar_conductores.ts    → Seed: Conductores
@@ -45,95 +53,85 @@ Base de datos relacional completa para la gestión de flotas, construida con **P
 
 - **Node.js** ≥ 18
 - **PostgreSQL** ≥ 14
-- **npm** ≥ 9
+- **Docker & Docker Compose** (Opcional, para ejecución rápida)
 
 ---
 
-## Instalación y Configuración
+## Ejecución con Docker (Recomendado)
 
-### 1. Instalar dependencias
-
-```bash
-npm install
-```
-
-### 2. Configurar la base de datos
-
-Copia la plantilla y edita con tus credenciales:
+Puedes levantar todo el ecosistema (PostgreSQL, Backend Express, Frontend React) con un solo comando:
 
 ```bash
-copy .env.example .env
+docker-compose up --build
 ```
 
-Edita `.env`:
-
-```env
-DATABASE_URL="postgresql://postgres:tu_password@localhost:5432/flota_vehicular?schema=public"
-```
-
-### 3. Crear la base de datos y aplicar el esquema
-
-```bash
-# Crea las tablas con una migración inicial
-npm run migrate:dev
-# Cuando pregunte el nombre de la migración, escribe: init
-
-# O si solo quieres generar las tablas sin migración:
-npx prisma db push
-```
-
-### 4. Generar el cliente Prisma
-
-```bash
-npm run generate
-```
+El sistema estará disponible en:
+- **Frontend (Web App)**: [http://localhost](http://localhost)
+- **Backend API**: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Cargar Datos Iniciales (Seeds)
+## Instalación y Configuración Manual
 
-```bash
-# Cargar en orden (cada uno depende del anterior)
-npm run seed:sectores
-npm run seed:conductores
-npm run seed:vehiculos
-npm run seed:mecanicos
+### 1. Servidor Backend y Base de Datos
 
-# O cargar todo de una vez
-npm run seed:all
-```
+1. Instalar dependencias en la raíz:
+   ```bash
+   npm install
+   ```
+2. Configurar la base de datos copiando el archivo `.env.example`:
+   ```bash
+   copy .env.example .env
+   ```
+   Y actualiza `DATABASE_URL` con tus credenciales de PostgreSQL locales.
+
+3. Aplicar las migraciones a la base de datos:
+   ```bash
+   npm run migrate:dev
+   ```
+
+4. Generar el cliente Prisma:
+   ```bash
+   npm run generate
+   ```
+
+5. Cargar todos los datos iniciales (seeds):
+   ```bash
+   npm run seed:all
+   ```
+
+6. Iniciar el servidor API Backend:
+   ```bash
+   npm start
+   ```
+   El backend correrá en `http://localhost:3000`.
+
+### 2. Frontend React
+
+1. Navegar a la carpeta `frontend/` e instalar dependencias:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. Iniciar el servidor de desarrollo de Vite:
+   ```bash
+   npm run dev
+   ```
+   El frontend estará accesible en `http://localhost:5173`.
 
 ---
 
-## Uso
-
-```bash
-# Ejecutar el programa principal (resumen de la base de datos)
-npm run dev
-
-# Registrar un movimiento diario de ejemplo
-npm run movimiento
-
-# Consultar costos y KPIs
-npm run costos
-
-# Abrir Prisma Studio (interfaz visual)
-npm run studio
-```
-
----
-
-## Scripts Disponibles
+## Scripts Disponibles (Raíz)
 
 | Script | Comando | Descripción |
 |---|---|---|
-| `npm run dev` | `ts-node index.ts` | Ejecuta el programa principal |
-| `npm run generate` | `prisma generate` | Regenera el cliente Prisma |
-| `npm run migrate:dev` | `prisma migrate dev` | Crea y aplica migraciones en desarrollo |
-| `npm run migrate:deploy` | `prisma migrate deploy` | Aplica migraciones en producción |
-| `npm run studio` | `prisma studio` | Abre la interfaz web de Prisma |
-| `npm run seed:all` | Scripts encadenados | Carga todos los datos iniciales |
-| `npm run format` | `prisma format` | Formatea el schema.prisma |
+| `npm start` | `ts-node server.ts` | Inicia el servidor de producción/desarrollo backend Express |
+| `npm run dev` | `ts-node index.ts` | Corre un script CLI de prueba rápida contra el catálogo |
+| `npm run generate` | `prisma generate` | Regenera el cliente de Prisma ORM |
+| `npm run migrate:dev` | `prisma migrate dev` | Ejecuta nuevas migraciones de desarrollo |
+| `npm run studio` | `prisma studio` | Lanza el panel web interactivo de base de datos de Prisma |
+| `npm run seed:all` | Correr los 4 seeds | Puebla la BD en orden con sectores, conductores, vehículos y talleres |
 
 ---
 
@@ -156,6 +154,5 @@ npm run studio
 ## Notas Técnicas
 
 - Los campos de tipo `TIME` se mapean a `DateTime` en TypeScript — usar `new Date('1970-01-01THH:MM:SSZ')` al insertar.
-- Los campos monetarios usan el tipo `Decimal` de Prisma para evitar errores de punto flotante.
-- El cliente Prisma es un singleton exportado desde `prisma.config.ts` para evitar múltiples conexiones en desarrollo.
-- Las vistas SQL en `prisma/views/` deben ejecutarse manualmente contra la base de datos (Prisma no gestiona vistas automáticamente).
+- Los campos monetarios usan el tipo `Decimal` de Prisma para evitar errores de precisión de punto flotante.
+- El cliente Prisma se importa como Singleton desde `prisma.config.ts`.
