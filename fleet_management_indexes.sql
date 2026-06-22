@@ -114,10 +114,21 @@ CREATE INDEX IDX_HISTORIAL_FICHA_CONTROL_NUMERO_FABRICA
 
 
 -- =============================================================================
+-- BLOQUE 5: ÍNDICE DE AUDITORÍA DE ASIGNACIÓN DE SECTOR (CENTRO DE COSTOS)
+-- Objetivo: Agilizar las auditorías por centros de costos del historial de
+--           asignación de sectores a cada unidad vehicular.
+-- =============================================================================
+
+CREATE INDEX IDX_HISTORIAL_ASIGNACION_VEHICULO
+    ON HISTORIAL_ASIGNACION_SECTOR (codigo_vehiculo);
+
+
+-- =============================================================================
 -- FIN DEL SCRIPT DE ÍNDICES
--- Total de índices creados: 9
+-- Total de índices creados: 10
 --   Bloque 1 - Temporales          : 4 índices
 --   Bloque 2 - Búsqueda Patrimonial: 1 índice
 --   Bloque 3 - Llaves Foráneas     : 3 índices
 --   Bloque 4 - Control Patrimonial : 1 índice
+--   Bloque 5 - Auditoría/Historial : 1 índice
 -- =============================================================================

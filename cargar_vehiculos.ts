@@ -22,6 +22,9 @@ const vehiculos = [
     anoFabricacion: 2020,
     capacidadCargaKg: new Decimal('1000.00'),
     idSectorAsignado: 1,
+    valorAdquisicion: new Decimal('35000.00'),
+    valorResidual:    new Decimal('7000.00'),
+    vidaUtilAnos:     5,
   },
   {
     codigoVehiculo: 'VH-002',
@@ -31,6 +34,9 @@ const vehiculos = [
     anoFabricacion: 2019,
     capacidadCargaKg: new Decimal('8000.00'),
     idSectorAsignado: 2,
+    valorAdquisicion: new Decimal('85000.00'),
+    valorResidual:    new Decimal('17000.00'),
+    vidaUtilAnos:     10,
   },
   {
     codigoVehiculo: 'VH-003',
@@ -40,6 +46,9 @@ const vehiculos = [
     anoFabricacion: 2021,
     capacidadCargaKg: new Decimal('1500.00'),
     idSectorAsignado: 3,
+    valorAdquisicion: new Decimal('42000.00'),
+    valorResidual:    new Decimal('8400.00'),
+    vidaUtilAnos:     7,
   },
   {
     codigoVehiculo: 'VH-004',
@@ -49,6 +58,9 @@ const vehiculos = [
     anoFabricacion: 2022,
     capacidadCargaKg: new Decimal('900.00'),
     idSectorAsignado: 4,
+    valorAdquisicion: new Decimal('38000.00'),
+    valorResidual:    new Decimal('9500.00'),
+    vidaUtilAnos:     5,
   },
   {
     codigoVehiculo: 'VH-005',
@@ -58,6 +70,9 @@ const vehiculos = [
     anoFabricacion: 2018,
     capacidadCargaKg: new Decimal('6000.00'),
     idSectorAsignado: 5,
+    valorAdquisicion: new Decimal('78000.00'),
+    valorResidual:    new Decimal('15600.00'),
+    vidaUtilAnos:     10,
   },
   {
     codigoVehiculo: 'VH-006',
@@ -67,6 +82,9 @@ const vehiculos = [
     anoFabricacion: 2023,
     capacidadCargaKg: new Decimal('800.00'),
     idSectorAsignado: 6,
+    valorAdquisicion: new Decimal('32000.00'),
+    valorResidual:    new Decimal('8000.00'),
+    vidaUtilAnos:     5,
   },
 ]
 
@@ -78,7 +96,33 @@ async function main(): Promise<void> {
 
   for (const v of vehiculos) {
     try {
-      await prisma.vehiculo.create({ data: v })
+      // 1. Crear o actualizar el vehículo (upsert)
+      await prisma.vehiculo.upsert({
+        where: { codigoVehiculo: v.codigoVehiculo },
+        update: {
+          valorAdquisicion: v.valorAdquisicion,
+          valorResidual: v.valorResidual,
+          vidaUtilAnos: v.vidaUtilAnos,
+          idSectorAsignado: v.idSectorAsignado,
+        },
+        create: v,
+      })
+
+      // 2. Crear asignación de sector inicial (histórico) si no existe ya
+      const historialExiste = await prisma.historialAsignacionSector.findFirst({
+        where: { codigoVehiculo: v.codigoVehiculo },
+      })
+
+      if (!historialExiste) {
+        await prisma.historialAsignacionSector.create({
+          data: {
+            codigoVehiculo: v.codigoVehiculo,
+            idSector: v.idSectorAsignado,
+            fechaInicio: new Date(`${v.anoFabricacion}-01-01`),
+          },
+        })
+      }
+
       console.log(`  [+] ${v.codigoVehiculo} | ${v.placaRodaje} | ${v.marca} ${v.modelo} (${v.anoFabricacion})`)
       creados++
     } catch (e: unknown) {

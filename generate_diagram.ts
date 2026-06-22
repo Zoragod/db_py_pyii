@@ -65,6 +65,16 @@ const TABLES: Record<string, TableDef> = {
     { name: 'ano_fabricacion',    type: 'SMALLINT',    flag: ''   },
     { name: 'capacidad_carga_kg', type: 'DECIMAL(8,2)',flag: ''   },
     { name: 'id_sector_asignado', type: 'INT',         flag: 'FK' },
+    { name: 'valor_adquisicion',  type: 'DECIMAL(12,2)',flag: ''   },
+    { name: 'valor_residual',     type: 'DECIMAL(12,2)',flag: ''   },
+    { name: 'vida_util_anos',     type: 'INT',         flag: ''   },
+  ]},
+  HISTORIAL_ASIGNACION_SECTOR: { module: 'catastro', fields: [
+    { name: 'id_asignacion',   type: 'INT',        flag: 'PK' },
+    { name: 'codigo_vehiculo', type: 'VARCHAR(6)', flag: 'FK' },
+    { name: 'id_sector',       type: 'INT',        flag: 'FK' },
+    { name: 'fecha_inicio',    type: 'DATE',       flag: ''   },
+    { name: 'fecha_fin',       type: 'DATE',       flag: ''   },
   ]},
   // ── Módulo 2: Movimiento ───────────────────────────────────────────────────
   MOVIMIENTO_DIARIO: { module: 'movimiento', fields: [
@@ -77,6 +87,12 @@ const TABLES: Record<string, TableDef> = {
     { name: 'km_salida',           type: 'DECIMAL(10,2)',flag: ''   },
     { name: 'km_llegada',          type: 'DECIMAL(10,2)',flag: ''   },
     { name: 'destino',             type: 'VARCHAR(200)', flag: ''   },
+    { name: 'chk_luces',           type: 'BOOLEAN',      flag: ''   },
+    { name: 'chk_frenos',          type: 'BOOLEAN',      flag: ''   },
+    { name: 'chk_fluidos',         type: 'BOOLEAN',      flag: ''   },
+    { name: 'chk_llantas',         type: 'BOOLEAN',      flag: ''   },
+    { name: 'chk_documentos',      type: 'BOOLEAN',      flag: ''   },
+    { name: 'checklist_observaciones', type: 'VARCHAR(500)', flag: '' },
   ]},
   SERVICENTRO_ACREDITADO: { module: 'movimiento', fields: [
     { name: 'id_servicentro',     type: 'INT',          flag: 'PK' },
@@ -209,6 +225,7 @@ function buildPositions(): Record<string, Pos> {
     SECTOR_SOLICITANTE:            p(0, 0),
     CONDUCTOR:                     p(1, 0),
     VEHICULO:                      p(2, 0),
+    HISTORIAL_ASIGNACION_SECTOR:   p(3, 0),
     // Fila 1 — Movimiento
     MOVIMIENTO_DIARIO:             p(0, 1),
     SERVICENTRO_ACREDITADO:        p(2, 1),
@@ -235,6 +252,8 @@ function buildPositions(): Record<string, Pos> {
 interface Rel { child: string; childField: string; parent: string; parentField: string }
 const RELATIONS: Rel[] = [
   { child: 'VEHICULO',                     childField: 'id_sector_asignado',  parent: 'SECTOR_SOLICITANTE',            parentField: 'id_sector' },
+  { child: 'HISTORIAL_ASIGNACION_SECTOR',  childField: 'codigo_vehiculo',     parent: 'VEHICULO',                      parentField: 'codigo_vehiculo' },
+  { child: 'HISTORIAL_ASIGNACION_SECTOR',  childField: 'id_sector',           parent: 'SECTOR_SOLICITANTE',            parentField: 'id_sector' },
   { child: 'MOVIMIENTO_DIARIO',            childField: 'codigo_vehiculo',     parent: 'VEHICULO',                      parentField: 'codigo_vehiculo' },
   { child: 'MOVIMIENTO_DIARIO',            childField: 'matricula_conductor', parent: 'CONDUCTOR',                     parentField: 'matricula_conductor' },
   { child: 'ORDEN_ABASTECIMIENTO',         childField: 'id_movimiento',       parent: 'MOVIMIENTO_DIARIO',             parentField: 'id_movimiento' },
@@ -302,7 +321,7 @@ function buildSVG(positions: Record<string, Pos>): string {
 </text>
 <text x="${CANVAS_W / 2}" y="54" text-anchor="middle"
       font-size="10" fill="#64748b">
-  17 tablas · 5 módulos · PostgreSQL + Prisma ORM
+  18 tablas · 5 módulos · PostgreSQL + Prisma ORM
 </text>`)
 
   // ── Module zone labels ──────────────────────────────────────────────────

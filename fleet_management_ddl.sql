@@ -57,9 +57,29 @@ CREATE TABLE VEHICULO (
     ano_fabricacion         SMALLINT        NOT NULL,
     capacidad_carga_kg      DECIMAL(8,2)    NOT NULL,
     id_sector_asignado      INT             NOT NULL,
+    valor_adquisicion       DECIMAL(12,2),
+    valor_residual          DECIMAL(12,2),
+    vida_util_anos          INT,
     CONSTRAINT PK_VEHICULO          PRIMARY KEY (codigo_vehiculo),
     CONSTRAINT UQ_VEHICULO_PLACA    UNIQUE (placa_rodaje),
     CONSTRAINT FK_VEHICULO_SECTOR   FOREIGN KEY (id_sector_asignado)
+        REFERENCES SECTOR_SOLICITANTE (id_sector)
+);
+
+-- -----------------------------------------------------------------------------
+-- Tabla: HISTORIAL_ASIGNACION_SECTOR
+-- Historial de asignaciones de vehículos a sectores (centros de costos) con fechas.
+-- -----------------------------------------------------------------------------
+CREATE TABLE HISTORIAL_ASIGNACION_SECTOR (
+    id_asignacion           INT             NOT NULL,
+    codigo_vehiculo         VARCHAR(6)      NOT NULL,
+    id_sector               INT             NOT NULL,
+    fecha_inicio            DATE            NOT NULL,
+    fecha_fin               DATE,
+    CONSTRAINT PK_HISTORIAL_ASIGNACION_SECTOR PRIMARY KEY (id_asignacion),
+    CONSTRAINT FK_HISTORIAL_ASIGNACION_VEHICULO FOREIGN KEY (codigo_vehiculo)
+        REFERENCES VEHICULO (codigo_vehiculo),
+    CONSTRAINT FK_HISTORIAL_ASIGNACION_SECTOR FOREIGN KEY (id_sector)
         REFERENCES SECTOR_SOLICITANTE (id_sector)
 );
 
@@ -83,6 +103,12 @@ CREATE TABLE MOVIMIENTO_DIARIO (
     km_salida               DECIMAL(10,2)   NOT NULL,
     km_llegada              DECIMAL(10,2),
     destino                 VARCHAR(200)    NOT NULL,
+    chk_luces               BOOLEAN         NOT NULL DEFAULT TRUE,
+    chk_frenos              BOOLEAN         NOT NULL DEFAULT TRUE,
+    chk_fluidos             BOOLEAN         NOT NULL DEFAULT TRUE,
+    chk_llantas             BOOLEAN         NOT NULL DEFAULT TRUE,
+    chk_documentos          BOOLEAN         NOT NULL DEFAULT TRUE,
+    checklist_observaciones VARCHAR(500),
     CONSTRAINT PK_MOVIMIENTO_DIARIO         PRIMARY KEY (id_movimiento),
     CONSTRAINT FK_MOVIMIENTO_VEHICULO       FOREIGN KEY (codigo_vehiculo)
         REFERENCES VEHICULO (codigo_vehiculo),

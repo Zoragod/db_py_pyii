@@ -24,7 +24,8 @@ model SectorSolicitante {
   nombreSector String @map("nombre_sector") @db.VarChar(100)
   localidad    String @db.VarChar(100)
 
-  vehiculos Vehiculo[]
+  vehiculos             Vehiculo[]
+  historialAsignaciones HistorialAsignacionSector[]
 
   @@map("sector_solicitante")
 }
@@ -50,15 +51,37 @@ model Vehiculo {
   capacidadCargaKg Decimal @map("capacidad_carga_kg") @db.Decimal(8, 2)
   idSectorAsignado Int     @map("id_sector_asignado")
 
-  sector          SectorSolicitante       @relation(fields: [idSectorAsignado], references: [idSector])
-  movimientos     MovimientoDiario[]
-  ordenesServicio OrdenServicioTaller[]
-  historialLlantas HistorialFichaControl[]
-  controlMensual  ControlMensualCosto[]
+  // Vacío 1: Parámetros financieros para Depreciación
+  valorAdquisicion Decimal? @map("valor_adquisicion") @db.Decimal(12, 2)
+  valorResidual    Decimal? @map("valor_residual") @db.Decimal(12, 2)
+  vidaUtilAnos     Int?     @map("vida_util_anos")
+
+  sector                SectorSolicitante           @relation(fields: [idSectorAsignado], references: [idSector])
+  movimientos           MovimientoDiario[]
+  ordenesServicio       OrdenServicioTaller[]
+  historialLlantas      HistorialFichaControl[]
+  controlMensual        ControlMensualCosto[]
+  historialAsignaciones HistorialAsignacionSector[]
 
   /// Índice B-Tree para búsqueda patrimonial por placa (ya cubierto por @unique)
   @@index([placaRodaje], name: "IDX_VEHICULO_PLACA_RODAJE")
   @@map("vehiculo")
+}
+
+/// Vacío 3: Historial de asignaciones de vehículos a sectores (centros de costos)
+model HistorialAsignacionSector {
+  idAsignacion   Int       @id @default(autoincrement()) @map("id_asignacion")
+  codigoVehiculo String    @map("codigo_vehiculo") @db.VarChar(6)
+  idSector       Int       @map("id_sector")
+  fechaInicio    DateTime  @map("fecha_inicio") @db.Date
+  fechaFin       DateTime? @map("fecha_fin") @db.Date
+
+  vehiculo Vehiculo          @relation(fields: [codigoVehiculo], references: [codigoVehiculo])
+  sector   SectorSolicitante @relation(fields: [idSector], references: [idSector])
+
+  /// Índice B-Tree para búsquedas por vehículo en el historial de asignaciones
+  @@index([codigoVehiculo], name: "IDX_HISTORIAL_ASIGNACION_VEHICULO")
+  @@map("historial_asignacion_sector")
 }
 
 // ============================================================
@@ -77,6 +100,14 @@ model MovimientoDiario {
   kmSalida           Decimal  @map("km_salida") @db.Decimal(10, 2)
   kmLlegada          Decimal? @map("km_llegada") @db.Decimal(10, 2)
   destino            String   @db.VarChar(200)
+
+  // Vacío 2: Lista de chequeo diaria (Checklist del Conductor)
+  chkLuces               Boolean @default(true) @map("chk_luces")
+  chkFrenos              Boolean @default(true) @map("chk_frenos")
+  chkFluidos             Boolean @default(true) @map("chk_fluidos")
+  chkLlantas             Boolean @default(true) @map("chk_llantas")
+  chkDocumentos          Boolean @default(true) @map("chk_documentos")
+  checklistObservaciones String? @map("checklist_observaciones") @db.VarChar(500)
 
   vehiculo  Vehiculo  @relation(fields: [codigoVehiculo], references: [codigoVehiculo])
   conductor Conductor @relation(fields: [matriculaConductor], references: [matriculaConductor])

@@ -28,6 +28,12 @@ async function main(): Promise<void> {
         kmSalida:        new Decimal('45230.00'),
         kmLlegada:       new Decimal('45430.50'),
         destino:         'Obra Vial Av. Universitaria — Comas',
+        chkLuces:        true,
+        chkFrenos:       true,
+        chkFluidos:      true,
+        chkLlantas:      true,
+        chkDocumentos:   true,
+        checklistObservaciones: 'Todo conforme al salir del garaje principal.',
       },
     })
 

@@ -36,7 +36,7 @@ async function main() {
   console.log(`  PKs: ${pkCount}  |  Índices B-Tree: ${idxCount}  |  Únicos: ${uqCount}`)
   console.log('══════════════════════════════════════════════════════════════\n')
 
-  // ── 2. Verificar los 9 índices B-Tree del proyecto ───────────────────────
+  // ── 2. Verificar los 10 índices B-Tree del proyecto ───────────────────────
   const nuestros = [
     'IDX_MOVIMIENTO_DIARIO_FECHA',
     'IDX_ORDEN_SERVICIO_TALLER_FECHA_EMISION',
@@ -47,9 +47,10 @@ async function main() {
     'IDX_DETALLE_SOLICITUD_MATERIAL_NUMERO_OS',
     'IDX_AUTORIZACION_SERVICIO_EXTERNO_NUMERO_OS',
     'IDX_HISTORIAL_FICHA_CONTROL_NUMERO_FABRICA',
+    'IDX_HISTORIAL_ASIGNACION_VEHICULO',
   ]
 
-  console.log('  VERIFICACIÓN DE LOS 9 ÍNDICES B-TREE DEL PROYECTO')
+  console.log('  VERIFICACIÓN DE LOS 10 ÍNDICES B-TREE DEL PROYECTO')
   console.log('──────────────────────────────────────────────────────────────')
 
   for (const nombre of nuestros) {

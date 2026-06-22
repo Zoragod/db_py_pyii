@@ -26,7 +26,7 @@
 </text>
 <text x="656" y="54" text-anchor="middle"
       font-size="10" fill="#64748b">
-  17 tablas · 5 módulos · PostgreSQL + Prisma ORM
+  18 tablas · 5 módulos · PostgreSQL + Prisma ORM
 </text>
 <!-- Zone: CATASTRO -->
 <text x="1292" y="82"
@@ -61,6 +61,8 @@
 
 <!-- ═══ FK RELATIONSHIPS ═══ -->
 <path d="M678,277.5 C494,277.5 494,139.5 310,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M1002,162.5 C980,162.5 980,139.5 958,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
+<path d="M1002,185.5 C656,185.5 656,139.5 310,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
 <path d="M310,421.5 C494,421.5 494,139.5 678,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
 <path d="M310,444.5 C332,444.5 332,139.5 354,139.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
 <path d="M1002,421.5 C656,421.5 656,398.5 310,398.5" fill="none" stroke="#475569" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#arr)"/>
@@ -114,7 +116,7 @@
 <rect x="354" y="197" width="280" height="6" rx="0" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5"/>
 
 <!-- VEHICULO -->
-<rect x="678" y="90" width="280" height="205" rx="7" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="678" y="90" width="280" height="274" rx="7" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
 <rect x="678" y="90" width="280" height="38" rx="7" fill="#2563eb"/><rect x="678" y="120" width="280" height="8" fill="#2563eb"/><text x="818" y="114" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">VEHICULO</text>
 <rect x="679" y="128" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
 <text x="685" y="143.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
@@ -145,10 +147,49 @@
 <text x="685" y="281.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
 <text x="705" y="281.5" font-size="9.5" fill="#7dd3fc">id_sector_asignado</text>
 <text x="952" y="281.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
-<rect x="678" y="289" width="280" height="6" rx="0" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5"/>
+<line x1="680" y1="289" x2="956" y2="289" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="289" width="278" height="23" fill="transparent"/>
+<text x="705" y="304.5" font-size="9.5" fill="#cbd5e1">valor_adquisicion</text>
+<text x="952" y="304.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="680" y1="312" x2="956" y2="312" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="312" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="705" y="327.5" font-size="9.5" fill="#cbd5e1">valor_residual</text>
+<text x="952" y="327.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DECIMAL(12,2)</text>
+<line x1="680" y1="335" x2="956" y2="335" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="679" y="335" width="278" height="23" fill="transparent"/>
+<text x="705" y="350.5" font-size="9.5" fill="#cbd5e1">vida_util_anos</text>
+<text x="952" y="350.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<rect x="678" y="358" width="280" height="6" rx="0" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5"/>
+
+<!-- HISTORIAL_ASIGNACION_SECTOR -->
+<rect x="1002" y="90" width="280" height="159" rx="7" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="1002" y="90" width="280" height="38" rx="7" fill="#2563eb"/><rect x="1002" y="120" width="280" height="8" fill="#2563eb"/><text x="1142" y="114" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">HISTORIAL_ASIGNACION_SECTOR</text>
+<rect x="1003" y="128" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1009" y="143.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
+<text x="1029" y="143.5" font-size="9.5" fill="#fbbf24">id_asignacion</text>
+<text x="1276" y="143.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="151" x2="1280" y2="151" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="151" width="278" height="23" fill="transparent"/>
+<text x="1009" y="166.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="1029" y="166.5" font-size="9.5" fill="#7dd3fc">codigo_vehiculo</text>
+<text x="1276" y="166.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(6)</text>
+<line x1="1004" y1="174" x2="1280" y2="174" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="174" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1009" y="189.5" font-size="8.5" font-weight="700" fill="#7dd3fc">FK</text>
+<text x="1029" y="189.5" font-size="9.5" fill="#7dd3fc">id_sector</text>
+<text x="1276" y="189.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">INT</text>
+<line x1="1004" y1="197" x2="1280" y2="197" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="197" width="278" height="23" fill="transparent"/>
+<text x="1029" y="212.5" font-size="9.5" fill="#cbd5e1">fecha_inicio</text>
+<text x="1276" y="212.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<line x1="1004" y1="220" x2="1280" y2="220" stroke="#3b82f6" stroke-width="0.3" opacity="0.35"/>
+<rect x="1003" y="220" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="1029" y="235.5" font-size="9.5" fill="#cbd5e1">fecha_fin</text>
+<text x="1276" y="235.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">DATE</text>
+<rect x="1002" y="243" width="280" height="6" rx="0" fill="#0f2447" stroke="#3b82f6" stroke-width="1.5"/>
 
 <!-- MOVIMIENTO_DIARIO -->
-<rect x="30" y="349" width="280" height="251" rx="7" fill="#0a2318" stroke="#10b981" stroke-width="1.5" filter="url(#sh)"/>
+<rect x="30" y="349" width="280" height="389" rx="7" fill="#0a2318" stroke="#10b981" stroke-width="1.5" filter="url(#sh)"/>
 <rect x="30" y="349" width="280" height="38" rx="7" fill="#059669"/><rect x="30" y="379" width="280" height="8" fill="#059669"/><text x="170" y="373" text-anchor="middle" font-size="10.5" font-weight="700" fill="#fff" letter-spacing="0.3">MOVIMIENTO_DIARIO</text>
 <rect x="31" y="387" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
 <text x="37" y="402.5" font-size="8.5" font-weight="700" fill="#fbbf24">PK</text>
@@ -188,7 +229,31 @@
 <rect x="31" y="571" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
 <text x="57" y="586.5" font-size="9.5" fill="#cbd5e1">destino</text>
 <text x="304" y="586.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(200)</text>
-<rect x="30" y="594" width="280" height="6" rx="0" fill="#0a2318" stroke="#10b981" stroke-width="1.5"/>
+<line x1="32" y1="594" x2="308" y2="594" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="594" width="278" height="23" fill="transparent"/>
+<text x="57" y="609.5" font-size="9.5" fill="#cbd5e1">chk_luces</text>
+<text x="304" y="609.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">BOOLEAN</text>
+<line x1="32" y1="617" x2="308" y2="617" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="617" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="632.5" font-size="9.5" fill="#cbd5e1">chk_frenos</text>
+<text x="304" y="632.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">BOOLEAN</text>
+<line x1="32" y1="640" x2="308" y2="640" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="640" width="278" height="23" fill="transparent"/>
+<text x="57" y="655.5" font-size="9.5" fill="#cbd5e1">chk_fluidos</text>
+<text x="304" y="655.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">BOOLEAN</text>
+<line x1="32" y1="663" x2="308" y2="663" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="663" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="678.5" font-size="9.5" fill="#cbd5e1">chk_llantas</text>
+<text x="304" y="678.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">BOOLEAN</text>
+<line x1="32" y1="686" x2="308" y2="686" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="686" width="278" height="23" fill="transparent"/>
+<text x="57" y="701.5" font-size="9.5" fill="#cbd5e1">chk_documentos</text>
+<text x="304" y="701.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">BOOLEAN</text>
+<line x1="32" y1="709" x2="308" y2="709" stroke="#10b981" stroke-width="0.3" opacity="0.35"/>
+<rect x="31" y="709" width="278" height="23" fill="rgba(255,255,255,0.035)"/>
+<text x="57" y="724.5" font-size="9.5" fill="#cbd5e1">checklist_observaciones</text>
+<text x="304" y="724.5" text-anchor="end" font-size="8.5" fill="#475569" font-style="italic">VARCHAR(500)</text>
+<rect x="30" y="732" width="280" height="6" rx="0" fill="#0a2318" stroke="#10b981" stroke-width="1.5"/>
 
 <!-- SERVICENTRO_ACREDITADO -->
 <rect x="678" y="349" width="280" height="90" rx="7" fill="#0a2318" stroke="#10b981" stroke-width="1.5" filter="url(#sh)"/>
