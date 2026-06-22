@@ -335,3 +335,24 @@ model ControlMensualCosto {
   @@index([mesReferencia, anioReferencia], name: "IDX_CONTROL_MENSUAL_COSTO_PERIODO")
   @@map("control_mensual_costo")
 }
+
+enum Rol {
+  ADMINISTRADOR
+  OPERADOR
+  MECANICO
+  ALMACENERO
+  CONDUCTOR
+}
+
+model Usuario {
+  idUsuario          Int     @id @default(autoincrement()) @map("id_usuario")
+  username           String  @unique @db.VarChar(50)
+  password           String  @db.VarChar(255)
+  nombre             String  @db.VarChar(150)
+  rol                Rol     @default(CONDUCTOR)
+  activo             Boolean @default(true)
+  matriculaConductor String? @unique @map("matricula_conductor") @db.VarChar(20)
+  matriculaMecanico  String? @unique @map("matricula_mecanico") @db.VarChar(20)
+
+  @@map("usuario")
+}
