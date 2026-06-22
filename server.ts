@@ -89,29 +89,29 @@ const permitirRoles = (...roles: Rol[]) => {
 
 // ─── Setup Inicial Autocurativo (Usuarios por Defecto) ────────────────────────
 async function setupDefaultUsers(): Promise<void> {
-  const count = await prisma.usuario.count()
-  if (count === 0) {
-    console.log('Iniciando setup autocurativo de usuarios por defecto...')
-    // Admin
-    await prisma.usuario.create({
-      data: {
-        username: 'admin',
-        password: hashPassword('admin123'),
-        nombre: 'Administrador de Flota',
-        rol: Rol.ADMINISTRADOR,
-      },
-    })
-    // Conductor
-    await prisma.usuario.create({
-      data: {
-        username: 'conductor',
-        password: hashPassword('conductor123'),
-        nombre: 'Juan Pérez (Chofer)',
-        rol: Rol.CONDUCTOR,
-        matriculaConductor: 'COND-001',
-      },
-    })
-    console.log('  [+] Usuarios "admin" (admin123) y "conductor" (conductor123) creados.')
+  console.log('Verificando usuarios por defecto en base de datos...')
+  const users = [
+    { username: 'admin', password: 'admin123', nombre: 'Administrador de Flota', rol: Rol.ADMINISTRADOR },
+    { username: 'conductor', password: 'conductor123', nombre: 'Juan Pérez (Chofer)', rol: Rol.CONDUCTOR, matriculaConductor: 'COND-001' },
+    { username: 'operador', password: 'operador123', nombre: 'Jorge Valdivia (Operador)', rol: Rol.OPERADOR },
+    { username: 'mecanico', password: 'mecanico123', nombre: 'Manuel Castro (Mecánico)', rol: Rol.MECANICO, matriculaMecanico: 'MEC-001' },
+    { username: 'almacenero', password: 'almacenero123', nombre: 'Augusto López (Almacenero)', rol: Rol.ALMACENERO }
+  ]
+  for (const u of users) {
+    const exists = await prisma.usuario.findUnique({ where: { username: u.username } })
+    if (!exists) {
+      await prisma.usuario.create({
+        data: {
+          username: u.username,
+          password: hashPassword(u.password),
+          nombre: u.nombre,
+          rol: u.rol,
+          matriculaConductor: u.matriculaConductor || null,
+          matriculaMecanico: u.matriculaMecanico || null
+        }
+      })
+      console.log(`  [+] Usuario "${u.username}" (${u.password}) creado.`)
+    }
   }
 }
 
@@ -399,6 +399,230 @@ app.get('/api/kpis/:codigoVehiculo/:mes/:anio', validarToken, async (req: AuthRe
     })
   } catch (e: any) {
     res.status(500).json({ error: e.message })
+  }
+})
+
+// ─── 6. Endpoints Adicionales para Sincronización Frontend-Backend ────────────
+
+// Obtener sectores
+app.get('/api/sectores', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const sectores = await prisma.sectorSolicitante.findMany()
+    res.json(sectores)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Registrar conductor (Admin únicamente)
+app.post('/api/conductores', validarToken, permitirRoles(Rol.ADMINISTRADOR), async (req: AuthRequest, res: Response) => {
+  try {
+    const { matriculaConductor, nombreConductor, documentoIdentidad } = req.body
+    const nuevo = await prisma.conductor.create({
+      data: { matriculaConductor, nombreConductor, documentoIdentidad }
+    })
+    res.status(201).json(nuevo)
+  } catch (e: any) {
+    res.status(400).json({ error: e.message })
+  }
+})
+
+// Obtener todos los movimientos
+app.get('/api/movimientos', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const movimientos = await prisma.movimientoDiario.findMany()
+    res.json(movimientos)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener abastecimientos
+app.get('/api/abastecimientos', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const abastecimientos = await prisma.ordenAbastecimiento.findMany()
+    res.json(abastecimientos)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener ordenes de servicio
+app.get('/api/ordenes-servicio', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const ordenes = await prisma.ordenServicioTaller.findMany()
+    res.json(ordenes)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener mecanicos
+app.get('/api/mecanicos', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const mecanicos = await prisma.mecanico.findMany()
+    res.json(mecanicos)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener servicentros
+app.get('/api/servicentros', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const servicentros = await prisma.servicentroAcreditado.findMany()
+    res.json(servicentros)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener repuestos
+app.get('/api/repuestos', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const repuestos = await prisma.repuestoAlmacen.findMany()
+    res.json(repuestos)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener llantas
+app.get('/api/llantas', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const llantas = await prisma.llantaOConjunto.findMany()
+    res.json(llantas)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener historial llantas
+app.get('/api/historial-llantas', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const historial = await prisma.historialFichaControl.findMany()
+    res.json(historial)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Registrar instalación llanta
+app.post('/api/historial-llantas', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const { numeroFabrica, codigoVehiculo, fechaInstalacion, kmInstalacion, posicionRueda } = req.body
+    const nuevo = await prisma.historialFichaControl.create({
+      data: {
+        numeroFabrica,
+        codigoVehiculo,
+        fechaInstalacion: new Date(fechaInstalacion),
+        kmInstalacion: new Decimal(kmInstalacion),
+        posicionRueda
+      }
+    })
+    res.status(201).json(nuevo)
+  } catch (e: any) {
+    res.status(400).json({ error: e.message })
+  }
+})
+
+// Obtener mano de obra
+app.get('/api/mano-obra', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const manoObra = await prisma.tarjetaManoObra.findMany()
+    res.json(manoObra)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Registrar mano de obra
+app.post('/api/mano-obra', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const { numeroOs, matriculaMecanico, fechaTrabajo, codigoServicioEjecutado, horaInicio, horaFinal } = req.body
+    const nuevo = await prisma.tarjetaManoObra.create({
+      data: {
+        numeroOs,
+        matriculaMecanico,
+        fechaTrabajo: new Date(fechaTrabajo),
+        codigoServicioEjecutado,
+        horaInicio: new Date(horaInicio),
+        horaFinal: new Date(horaFinal)
+      }
+    })
+    res.status(201).json(nuevo)
+  } catch (e: any) {
+    res.status(400).json({ error: e.message })
+  }
+})
+
+// Obtener detalles materiales
+app.get('/api/detalles-materiales', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const detalles = await prisma.detalleSolicitudMaterial.findMany()
+    res.json(detalles)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Registrar solicitud materiales
+app.post('/api/detalles-materiales', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const { numeroOs, codigoRepuesto, cantidad, costoTotalRepuesto } = req.body
+    const nuevo = await prisma.detalleSolicitudMaterial.create({
+      data: {
+        numeroOs,
+        codigoRepuesto,
+        cantidad: new Decimal(cantidad),
+        costoTotalRepuesto: new Decimal(costoTotalRepuesto)
+      }
+    })
+    res.status(201).json(nuevo)
+  } catch (e: any) {
+    res.status(400).json({ error: e.message })
+  }
+})
+
+// Obtener talleres
+app.get('/api/talleres', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const talleres = await prisma.tallerTerceros.findMany()
+    res.json(talleres)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Obtener servicios externos
+app.get('/api/servicios-externos', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const servicios = await prisma.autorizacionServicioExterno.findMany()
+    res.json(servicios)
+  } catch (e: any) {
+    res.status(500).json({ error: e.message })
+  }
+})
+
+// Registrar servicio externo
+app.post('/api/servicios-externos', validarToken, async (req: AuthRequest, res: Response) => {
+  try {
+    const { numeroOs, idTallerTercero, fechaEmision, fechaEntradaTaller, kmEntrada, fechaSalidaTaller, kmSalida, fechaAprobacion } = req.body
+    const nuevo = await prisma.autorizacionServicioExterno.create({
+      data: {
+        numeroOs,
+        idTallerTercero,
+        fechaEmision: new Date(fechaEmision),
+        fechaEntradaTaller: fechaEntradaTaller ? new Date(fechaEntradaTaller) : null,
+        kmEntrada: kmEntrada ? new Decimal(kmEntrada) : null,
+        fechaSalidaTaller: fechaSalidaTaller ? new Date(fechaSalidaTaller) : null,
+        kmSalida: kmSalida ? new Decimal(kmSalida) : null,
+        fechaAprobacion: fechaAprobacion ? new Date(fechaAprobacion) : null
+      }
+    })
+    res.status(201).json(nuevo)
+  } catch (e: any) {
+    res.status(400).json({ error: e.message })
   }
 })
 

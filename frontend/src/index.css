@@ -1,167 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
 
-:root {
-  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  
-  /* Paleta Glassmorphism Dark */
-  --bg-canvas: #060a13;
-  --bg-sidebar: rgba(10, 16, 30, 0.6);
-  --bg-card: rgba(255, 255, 255, 0.03);
-  --bg-card-hover: rgba(255, 255, 255, 0.06);
-  --bg-input: rgba(0, 0, 0, 0.25);
-  
-  --border-card: rgba(255, 255, 255, 0.07);
-  --border-card-active: rgba(255, 255, 255, 0.15);
-  --border-input: rgba(255, 255, 255, 0.08);
-  --border-input-focus: rgba(59, 130, 246, 0.5);
-  
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  
-  /* Colores por Módulos (SIAFV) */
-  --color-catastro: #3b82f6;      /* Azul */
-  --color-movimiento: #10b981;    /* Verde */
-  --color-mantenimiento: #8b5cf6; /* Morado */
-  --color-costos: #ef4444;        /* Rojo */
-  --color-accent: #f59e0b;        /* Ámbar */
-  
-  --shadow-lg: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
-  --shadow-glow: 0 0 20px -5px rgba(59, 130, 246, 0.3);
-  
-  color-scheme: dark;
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased font-sans selection:bg-blue-600 selection:text-white;
+  }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: var(--font-sans);
-  background-color: var(--bg-canvas);
-  color: var(--text-primary);
-  min-height: 100vh;
-  overflow-x: hidden;
-  letter-spacing: -0.01em;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.08) 0px, transparent 50%);
-}
-
-/* Scrollbar Custom */
+/* Custom premium scrollbar for modern looks */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: #020617; /* slate-950 */
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  background: #1e293b; /* slate-800 */
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-/* Efectos Glassmorphism */
-.glass-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-card);
-  border-radius: 14px;
-  box-shadow: var(--shadow-lg);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-panel-hover:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-card-active);
-  transform: translateY(-2px);
-}
-
-/* Botones con micro-interacciones */
-button {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 8px;
-  border: none;
-  transition: all 0.2s ease;
-}
-
-.btn-primary {
-  background: var(--color-catastro);
-  color: #fff;
-  padding: 10px 16px;
-}
-.btn-primary:hover {
-  filter: brightness(1.15);
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
-}
-.btn-primary:active {
-  transform: scale(0.97);
-}
-
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-card);
-  color: var(--text-primary);
-  padding: 10px 16px;
-}
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Controles de Formulario */
-input, select, textarea {
-  font-family: var(--font-sans);
-  background: var(--bg-input);
-  border: 1px solid var(--border-input);
-  color: var(--text-primary);
-  border-radius: 8px;
-  padding: 10px 14px;
-  outline: none;
-  transition: all 0.2s ease;
-}
-input:focus, select:focus, textarea:focus {
-  border-color: var(--border-input-focus);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-
-/* Layout General */
-.app-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-.sidebar {
-  width: 260px;
-  background: var(--bg-sidebar);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid var(--border-card);
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-}
-
-.main-content {
-  flex: 1;
-  padding: 32px;
-  overflow-y: auto;
-}
-
-.grid-cols-4 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
-}
-
-.grid-cols-2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 24px;
+  background: #3b82f6; /* blue-500 */
 }

@@ -1,0 +1,55 @@
+services:
+
+  # ── Base de datos PostgreSQL ────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: siafv
+      POSTGRES_PASSWORD: siafv_secret
+      POSTGRES_DB: siafv_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U siafv -d siafv_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # ponytail: no exponemos el puerto de BD al host en prod; solo interno
+    # Para desarrollo local puedes descomentar:
+    # ports:
+    #   - "5432:5432"
+
+  # ── Backend Node.js / Prisma ────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://siafv:siafv_secret@db:5432/siafv_db
+      JWT_SECRET: cambia_esto_por_un_secreto_seguro_en_produccion
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ── Frontend React (nginx) ──────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # En produccion reemplaza localhost:3000 por tu dominio real del backend
+        VITE_API_URL: http://localhost:3000/api
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
