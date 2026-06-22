@@ -103,6 +103,21 @@ async function setupDefaultUsers(): Promise<void> {
   }
 }
 
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    estado: 'Servidor SIAFV Activo',
+    mensaje: 'La API está corriendo. Usa los endpoints de /api para interactuar.',
+    endpoints_disponibles: {
+      autenticacion: 'POST /api/auth/login',
+      vehiculos: 'GET /api/vehiculos, POST /api/vehiculos',
+      conductores: 'GET /api/conductores',
+      operaciones: 'POST /api/movimientos (checklists), POST /api/abastecimientos',
+      mantenimiento: 'POST /api/ordenes-servicio',
+      kpis_calculos: 'GET /api/kpis/:codigoVehiculo/:mes/:anio'
+    }
+  })
+})
+
 // ─── 1. Endpoints de Autenticación ────────────────────────────────────────────
 
 // InicioSesion-API
