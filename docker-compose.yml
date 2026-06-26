@@ -23,7 +23,7 @@ services:
   # ── Backend Node.js / Prisma ────────────────────────────────────────────────
   backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
