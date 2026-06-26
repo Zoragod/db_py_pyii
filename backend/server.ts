@@ -1,7 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express'
 import crypto from 'crypto'
 import prisma from './db'
-import { Rol, Decimal } from './generated/prisma'
+import { Rol } from './generated/prisma'
+import { Decimal } from './generated/prisma/runtime/library'
 
 const app = express()
 app.use(express.json())
@@ -116,18 +117,310 @@ async function setupDefaultUsers(): Promise<void> {
 }
 
 app.get('/', (req: Request, res: Response) => {
-  res.json({
-    estado: 'Servidor SIAFV Activo',
-    mensaje: 'La API está corriendo. Usa los endpoints de /api para interactuar.',
-    endpoints_disponibles: {
-      autenticacion: 'POST /api/auth/login',
-      vehiculos: 'GET /api/vehiculos, POST /api/vehiculos',
-      conductores: 'GET /api/conductores',
-      operaciones: 'POST /api/movimientos (checklists), POST /api/abastecimientos',
-      mantenimiento: 'POST /api/ordenes-servicio',
-      kpis_calculos: 'GET /api/kpis/:codigoVehiculo/:mes/:anio'
+  res.send(`<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Status - SIAFV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --success: #10b981;
+      --accent: #6366f1;
+      --border: #334155;
     }
-  })
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: rgba(16, 185, 129, 0.15);
+      color: var(--success);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      margin-bottom: 1rem;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(0.98); }
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 1.125rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .span-2 {
+        grid-column: span 2;
+      }
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .endpoint-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .endpoint-item {
+      display: flex;
+      flex-direction: column;
+      padding: 0.75rem;
+      background: rgba(15, 23, 42, 0.4);
+      border-radius: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    @media (min-width: 640px) {
+      .endpoint-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .endpoint-path {
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      margin-top: 0.25rem;
+    }
+    @media (min-width: 640px) {
+      .endpoint-path {
+        margin-top: 0;
+      }
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: monospace;
+      text-align: center;
+      min-width: 60px;
+    }
+    .badge-get {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+    .badge-post {
+      background-color: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+    }
+    .badge-put {
+      background-color: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+    }
+    .badge-delete {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    td code {
+      font-family: monospace;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+      color: #f1f5f9;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+    .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary);
+      color: #0f172a;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      margin-top: 1rem;
+      width: 100%;
+      text-align: center;
+    }
+    .link-button:hover {
+      background-color: var(--primary-hover);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="status-badge">
+        <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background-color:var(--success)"></span>
+        SIAFV API ACTIVA
+      </div>
+      <h1>Servidor de APIs SIAFV</h1>
+      <p>Sistema de Administración de Flotas Vehiculares (Manual MA 122)</p>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-title">🔌 Endpoints Principales</div>
+        <div class="endpoint-list">
+          <div class="endpoint-item">
+            <span class="badge badge-post">POST</span>
+            <span class="endpoint-path">/api/auth/login</span>
+          </div>
+          <div class="endpoint-item">
+            <span class="badge badge-get">GET</span>
+            <span class="endpoint-path">/api/vehiculos</span>
+          </div>
+          <div class="endpoint-item">
+            <span class="badge badge-post">POST</span>
+            <span class="endpoint-path">/api/movimientos</span>
+          </div>
+          <div class="endpoint-item">
+            <span class="badge badge-post">POST</span>
+            <span class="endpoint-path">/api/abastecimientos</span>
+          </div>
+          <div class="endpoint-item">
+            <span class="badge badge-post">POST</span>
+            <span class="endpoint-path">/api/ordenes-servicio</span>
+          </div>
+          <div class="endpoint-item">
+            <span class="badge badge-get">GET</span>
+            <span class="endpoint-path">/api/kpis/:id/:mes/:anio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔑 Cuentas de Acceso (Test)</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Rol</th>
+              <th>Usuario</th>
+              <th>Contraseña</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Administrador</td>
+              <td><code>admin</code></td>
+              <td><code>admin123</code></td>
+            </tr>
+            <tr>
+              <td>Operador</td>
+              <td><code>operador</code></td>
+              <td><code>operador123</code></td>
+            </tr>
+            <tr>
+              <td>Mecánico</td>
+              <td><code>mecanico</code></td>
+              <td><code>mecanico123</code></td>
+            </tr>
+            <tr>
+              <td>Almacenero</td>
+              <td><code>almacenero</code></td>
+              <td><code>almacenero123</code></td>
+            </tr>
+            <tr>
+              <td>Conductor</td>
+              <td><code>conductor</code></td>
+              <td><code>conductor123</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card span-2">
+        <div class="card-title">🌐 Ir a la Aplicación Frontend</div>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+          La aplicación web frontend está corriendo por separado. Puedes ingresar a través del siguiente enlace si ya está activa en tu red/máquina local.
+        </p>
+        <a href="http://localhost" class="link-button">Ir a la Web Principal (http://localhost)</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      SIAFV &bull; EPS &bull; Diseñado según el Manual MA 122
+    </div>
+  </div>
+</body>
+</html>`)
 })
 
 // ─── 1. Endpoints de Autenticación ────────────────────────────────────────────
@@ -305,7 +598,7 @@ app.post('/api/ordenes-servicio', validarToken, permitirRoles(Rol.ADMINISTRADOR,
 
 // MA122_03_01 & Calc_Indicadores: Cálculo de Indicadores (CKV, IUV, Depreciación)
 app.get('/api/kpis/:codigoVehiculo/:mes/:anio', validarToken, async (req: AuthRequest, res: Response): Promise<void> => {
-  const { codigoVehiculo, mes, anio } = req.params
+  const { codigoVehiculo, mes, anio } = req.params as { codigoVehiculo: string; mes: string; anio: string }
   const nMes = parseInt(mes, 10)
   const nAnio = parseInt(anio, 10)
 
