@@ -3,6 +3,7 @@ import crypto from 'crypto'
 import prisma from './db'
 import { Rol } from './generated/prisma'
 import { Decimal } from './generated/prisma/runtime/library'
+import openapiSpec from './openapi.json'
 
 const app = express()
 app.use(express.json())
@@ -406,12 +407,20 @@ app.get('/', (req: Request, res: Response) => {
         </table>
       </div>
 
-      <div class="card span-2">
-        <div class="card-title">🌐 Ir a la Aplicación Frontend</div>
+      <div class="card">
+        <div class="card-title">🌐 Frontend Web</div>
         <p style="color: var(--text-muted); margin-bottom: 1rem;">
-          La aplicación web frontend está corriendo por separado. Puedes ingresar a través del siguiente enlace si ya está activa en tu red/máquina local.
+          La aplicación web principal interactiva para los usuarios del sistema.
         </p>
-        <a href="http://localhost" class="link-button">Ir a la Web Principal (http://localhost)</a>
+        <a href="http://localhost" class="link-button">Ir a la Aplicación</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📚 API Swagger Docs</div>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+          Explora, interactúa y prueba en tiempo real los endpoints de esta API.
+        </p>
+        <a href="/docs" class="link-button" style="background-color: var(--accent); color: white;">Ver Swagger UI</a>
       </div>
     </div>
 
@@ -422,6 +431,48 @@ app.get('/', (req: Request, res: Response) => {
 </body>
 </html>`)
 })
+
+app.get('/docs', (req: Request, res: Response) => {
+  res.send(`<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentación de API SIAFV (Swagger)</title>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <link rel="icon" type="image/png" href="https://unpkg.com/swagger-ui-dist@5/favicon-32x32.png" sizes="32x32" />
+  <style>
+    html { box-sizing: border-box; overflow: -grow-y; }
+    *, *:before, *:after { box-sizing: inherit; }
+    body { margin: 0; background: #0f172a; color: #f8fafc; }
+    /* Estilo oscuro para el Swagger UI */
+    .swagger-ui { filter: invert(0.88) hue-rotate(180deg); }
+    .swagger-ui .info { margin: 20px 0; }
+    .swagger-ui .scheme-container { background: #fafafa; }
+  </style>
+</head>
+<body>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js" charset="UTF-8"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-standalone-preset.js" charset="UTF-8"></script>
+  <script>
+    window.onload = function() {
+      const ui = SwaggerUIBundle({
+        spec: ${JSON.stringify(openapiSpec)},
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        layout: "BaseLayout"
+      });
+      window.ui = ui;
+    };
+  </script>
+</body>
+</html>`)
+})
+
 
 // ─── 1. Endpoints de Autenticación ────────────────────────────────────────────
 

@@ -1,0 +1,323 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SIAFV API - Sistema de Administración de Flotas Vehiculares",
+    "description": "Especificación interactiva de endpoints para el backend del Sistema SIAFV (Manual MA 122).",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor Local"
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "summary": "Iniciar Sesión",
+        "description": "Autentica al usuario y devuelve un token JWT.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "admin"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "admin123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Autenticación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    },
+                    "usuario": {
+                      "type": "object",
+                      "properties": {
+                        "username": { "type": "string", "example": "admin" },
+                        "nombre": { "type": "string", "example": "Administrador" },
+                        "rol": { "type": "string", "example": "ADMINISTRADOR" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciales inválidas"
+          }
+        }
+      }
+    },
+    "/api/vehiculos": {
+      "get": {
+        "summary": "Listar Vehículos",
+        "description": "Retorna la lista de todos los vehículos registrados.",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Lista de vehículos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "codigoVehiculo": { "type": "string", "example": "VEH-01" },
+                      "placa": { "type": "string", "example": "EGB-123" },
+                      "marca": { "type": "string", "example": "Toyota" },
+                      "modelo": { "type": "string", "example": "Hilux" },
+                      "tipoVehiculo": { "type": "string", "example": "CAMIONETA" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Registrar Vehículo",
+        "description": "Crea un nuevo vehículo en la flota. Requiere rol ADMINISTRADOR.",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["codigoVehiculo", "idSector", "placa", "marca", "modelo", "tipoVehiculo", "añoFabricacion", "capacidadCargaKg", "estadoVehiculo"],
+                "properties": {
+                  "codigoVehiculo": { "type": "string", "example": "VEH-57" },
+                  "idSector": { "type": "integer", "example": 1 },
+                  "placa": { "type": "string", "example": "EGC-888" },
+                  "marca": { "type": "string", "example": "Hyundai" },
+                  "modelo": { "type": "string", "example": "H1" },
+                  "tipoVehiculo": { "type": "string", "example": "FVRGON" },
+                  "añoFabricacion": { "type": "integer", "example": 2024 },
+                  "capacidadCargaKg": { "type": "number", "example": 1500 },
+                  "estadoVehiculo": { "type": "string", "example": "OPERATIVO" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Vehículo registrado correctamente"
+          }
+        }
+      }
+    },
+    "/api/conductores": {
+      "get": {
+        "summary": "Listar Conductores",
+        "description": "Retorna la lista de todos los conductores.",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Lista de conductores"
+          }
+        }
+      },
+      "post": {
+        "summary": "Registrar Conductor",
+        "description": "Crea un nuevo conductor. Requiere rol ADMINISTRADOR.",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["matriculaConductor", "nombre", "licencia", "categoria", "telefono"],
+                "properties": {
+                  "matriculaConductor": { "type": "string", "example": "COND-058" },
+                  "nombre": { "type": "string", "example": "Carlos Sánchez" },
+                  "licencia": { "type": "string", "example": "Q87654321" },
+                  "categoria": { "type": "string", "example": "A-IIIc" },
+                  "telefono": { "type": "string", "example": "987654321" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Conductor registrado"
+          }
+        }
+      }
+    },
+    "/api/movimientos": {
+      "post": {
+        "summary": "Registrar Movimiento Diario (Checklist)",
+        "description": "Registra la bitácora de viaje de un vehículo.",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["codigoVehiculo", "matriculaConductor", "fechaMovimiento", "kmSalida", "nivelCombustibleSalida"],
+                "properties": {
+                  "codigoVehiculo": { "type": "string", "example": "VEH-01" },
+                  "matriculaConductor": { "type": "string", "example": "COND-001" },
+                  "fechaMovimiento": { "type": "string", "format": "date-time", "example": "2026-06-26T08:00:00Z" },
+                  "kmSalida": { "type": "number", "example": 12050.5 },
+                  "nivelCombustibleSalida": { "type": "string", "example": "LLENO" },
+                  "observaciones": { "type": "string", "example": "Sin novedades" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Movimiento registrado"
+          }
+        }
+      }
+    },
+    "/api/abastecimientos": {
+      "post": {
+        "summary": "Registrar Combustible",
+        "description": "Registra una recarga de combustible de un vehículo.",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["codigoVehiculo", "fechaAbastecimiento", "galonesAbastecidos", "kilometrajeActual", "costoTotal"],
+                "properties": {
+                  "codigoVehiculo": { "type": "string", "example": "VEH-01" },
+                  "fechaAbastecimiento": { "type": "string", "format": "date-time", "example": "2026-06-26T12:00:00Z" },
+                  "galonesAbastecidos": { "type": "number", "example": 10.5 },
+                  "kilometrajeActual": { "type": "number", "example": 12150 },
+                  "costoTotal": { "type": "number", "example": 165.50 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Abastecimiento registrado"
+          }
+        }
+      }
+    },
+    "/api/ordenes-servicio": {
+      "post": {
+        "summary": "Crear Orden de Servicio (Mantenimiento)",
+        "description": "Registra una nueva orden de servicio de mantenimiento.",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["codigoVehiculo", "matriculaMecanico", "idTaller", "fechaEmision", "tipoMantenimiento", "kmEntrada"],
+                "properties": {
+                  "codigoVehiculo": { "type": "string", "example": "VEH-01" },
+                  "matriculaMecanico": { "type": "string", "example": "MEC-001" },
+                  "idTaller": { "type": "integer", "example": 1 },
+                  "fechaEmision": { "type": "string", "format": "date-time", "example": "2026-06-26T14:00:00Z" },
+                  "tipoMantenimiento": { "type": "string", "example": "PREVENTIVO" },
+                  "kmEntrada": { "type": "number", "example": 12200 }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Orden de servicio registrada"
+          }
+        }
+      }
+    },
+    "/api/kpis/{codigoVehiculo}/{mes}/{anio}": {
+      "get": {
+        "summary": "Obtener KPIs de un Vehículo",
+        "description": "Calcula y retorna indicadores financieros y operativos (CKV, IUV, Depreciación) del vehículo para un mes/año según el Manual MA 122.",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "codigoVehiculo",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "VEH-01"
+          },
+          {
+            "name": "mes",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 6
+          },
+          {
+            "name": "anio",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" },
+            "example": 2026
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Indicadores calculados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "codigoVehiculo": { "type": "string", "example": "VEH-01" },
+                    "depreciacionMensual": { "type": "number", "example": 250.00 },
+                    "totalKms": { "type": "number", "example": 1200 },
+                    "ckv": { "type": "number", "example": 0.58 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Ingresa el token JWT en formato: Bearer <tu_token>"
+      }
+    }
+  }
+}
